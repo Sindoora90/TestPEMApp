@@ -1,0 +1,93 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="500px"
+            android:layout_height="300px"
+            android:id="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="39dp"
+            android:src="@drawable/ic_launcher"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Titel"
+        android:textSize="10pt"
+        android:id="@+id/textView3" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="34dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Name: "
+            android:id="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Preis: "
+            android:id="@+id/textView4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="96dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Beschreibung"
+        android:id="@+id/textView2"
+        android:layout_weight="0.94" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="87dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#FFFFFF">
+
+            <ImageButton
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/imageButton"
+                android:src="@drawable/telefon" />
+
+            <ImageButton
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/imageButton2"
+                android:src="@drawable/mail"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/imageButton3"
+                android:src="@drawable/maps"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>
