@@ -13,6 +13,28 @@
         android:src="@drawable/ic_launcher" >
     </ImageView>
 
+
+
+<!--    <RelativeLayout android:layout_width="134dp" android:layout_height="121dp">
+        <ImageView
+            android:layout_width="250px"
+            android:layout_height="250px"
+            android:layout_marginLeft="4px"
+            android:layout_marginTop="4px"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentBottom="true" />
+        <ImageView
+            android:src="@drawable/fri"
+            android:layout_width="60px"
+            android:layout_height="60px"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="4px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+-->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
