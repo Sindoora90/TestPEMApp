@@ -285,8 +285,14 @@ public class MainActivity extends Activity {
             case R.id.menu_add:
                 // Red item was selected
                 Intent intent = new Intent();
+
                 intent.setClassName(getPackageName(), getPackageName()+".NewEntryActivity");
                 //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                intent.putExtra("index", 0);
+                //gibt title mit
+                intent.putExtra("selected","");
+                intent.putExtra("mine", false);
+
                 startActivity(intent);
                 Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
                 //System.out.println("test");

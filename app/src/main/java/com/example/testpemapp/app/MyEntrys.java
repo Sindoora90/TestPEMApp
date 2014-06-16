@@ -121,14 +121,14 @@ public class MyEntrys extends Activity {
                 // entweder detailview erst aufrufen oder gleich die newEntry mit den fertigen werten.. ?
                 // bzw des parseobjekt an die newEntry über intent mitgeben ?
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName()+".DetailsActivity");
+                intent.setClassName(getPackageName(), getPackageName()+".NewEntryActivity");
                 intent.putExtra("index", arg2);
                 //gibt title mit
                 intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
                 intent.putExtra("mine", true); // falls es sich um meine eigenen handelt muss detailview bescheid wissen
 
                 //parseobject wenns geht
-                intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
+                //intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
                 startActivity(intent);
 
 

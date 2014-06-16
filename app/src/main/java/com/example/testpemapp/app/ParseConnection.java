@@ -109,5 +109,27 @@ public class ParseConnection {
     }
 
 
+    // bisher macht sie dasselbe wie newEntry also erzeugt ein neues object aber es soll des vorhandene updaten (-> objectID?)
+    public void updateEntry(Bitmap pic, String title, boolean geschenk, double price, String description) {
+        // Bild muss extra gespeichert werden:
 
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        // hier richtig compressen...
+        pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bytearray = stream.toByteArray();
+        ParseFile file = new ParseFile("nameDesBildes.png", bytearray);
+        file.saveInBackground();
+
+        // speichern des eigentlichen Entry Objekts mit einem Verweis auf das Bild:
+
+        ParseObject newEntry = new ParseObject("Entry");
+        newEntry.put("title", title);
+        newEntry.put("geschenk", geschenk);
+        newEntry.put("price", price);
+        newEntry.put("description", description);
+        newEntry.put("user", ParseUser.getCurrentUser());
+        newEntry.put("picFile", file);
+        newEntry.saveInBackground();
+
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.FileNotFoundException;
@@ -36,6 +44,18 @@ public class NewEntryActivity extends Activity {
     Bitmap pic;
     ParseConnection connection;
 
+    boolean mine;
+    String selected;
+
+    String name;
+
+    ParseFile picFile;
+    TextView titleTextView;
+    TextView nameTextView;
+    TextView descTextView;
+    TextView priceTextView;
+    //ImageView imageView;
+
 
 
     private static final int REQUEST_CODE = 1;
@@ -56,12 +76,77 @@ public class NewEntryActivity extends Activity {
         //pic = R.drawable.ic_launcher; //initialisieren mit dem ic launcher aber geht nicht..
 
 
+        // falls es von MyEntrys kommt..
+        if (savedInstanceState == null) {
+
+            //String bla = getIntent().getExtras().toString();
+
+            Bundle bundle = getIntent().getExtras();
+            int index = bundle.getInt("index");
+            selected = bundle.getString("selected");
+            mine = bundle.getBoolean("mine");
+
+            Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
+
+        }
+
+        // ueber parsequery object holen und an die passenden stellen die werte eintragen
+        // update methode von parse aufrufen bei ok
+        if(mine){
+
+            //nameTextView = (TextView)findViewById(R.id.textView);
+            descTextView = (TextView)findViewById(R.id.editText3);
+            imageView = (ImageView)findViewById(R.id.imageButton3);
+            priceTextView = (TextView)findViewById(R.id.editText2);
+            titleTextView = (TextView)findViewById(R.id.titleEditText);
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
+            query.whereEqualTo("title", selected);
+            query.include("user");
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    title = parseObject.getString("title");
+                    description = parseObject.getString("description");
+                    name = ((ParseUser)parseObject.get("user")).getUsername();
+                    price = parseObject.getDouble("price");
+
+                    picFile = (ParseFile)parseObject.getParseFile("picFile");
+
+                    picFile.getDataInBackground(new GetDataCallback() {
+                        public void done(byte[] data,
+                                         ParseException e) {
+                            if (e == null) {
+                                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                imageView.setImageBitmap(bmp);
+                            } else {
+                                Log.d("test", "There was a problem downloading the data.");
+                            }
+                        }
+                    });
+                   // nameTextView.setText(name);
+                    titleTextView.setText(title);
+                    descTextView.setText(description);
+                    priceTextView.setText(Double.toString(price));
+                }
+            });
+
+        }
+
+
         Button b = (Button) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
-                createNewEntry();
+                // falls nur update gemacht werden soll...
+                if(mine){
+                 Toast.makeText(NewEntryActivity.this, "update ok", Toast.LENGTH_SHORT).show();
+                    updateEntry();
+                }
+                else {
+                    Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
+                    createNewEntry();
+                }
             }
         });
 
@@ -107,6 +192,27 @@ public class NewEntryActivity extends Activity {
             }
         });
 
+    }
+
+    private void updateEntry() {
+        // updated den vorhandenen entry...
+        //EditText nameField = (EditText) findViewById(R.id.inputText);
+        //String name = nameField.getText().toString();
+        EditText titleText = (EditText) findViewById(R.id.titleEditText);
+        title = titleText.getText().toString();
+
+        EditText descText = (EditText)findViewById(R.id.editText3);
+        description = descText.getText().toString();
+        //geschenk = false;
+        EditText priceText = (EditText)findViewById(R.id.editText2);
+        price = Double.parseDouble(priceText.getText().toString());
+
+        entry = new Entry(id,title, geschenk,bitmap,  price, description, ParseUser.getCurrentUser());
+        Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle(), Toast.LENGTH_SHORT).show();
+
+
+        connection.updateEntry(pic, title, geschenk, price, description);
+        this.finish();
     }
 
 
