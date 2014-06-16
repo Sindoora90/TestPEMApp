@@ -43,7 +43,7 @@ public class MyEntrys extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_entrys);
 
-
+        // test test test 
 
 
         lv = (ListView)findViewById(R.id.listView);
