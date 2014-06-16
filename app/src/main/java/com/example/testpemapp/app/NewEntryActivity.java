@@ -46,6 +46,7 @@ public class NewEntryActivity extends Activity {
 
     boolean mine;
     String selected;
+    String objectId;
 
     String name;
 
@@ -128,6 +129,7 @@ public class NewEntryActivity extends Activity {
                     titleTextView.setText(title);
                     descTextView.setText(description);
                     priceTextView.setText(Double.toString(price));
+                    objectId = parseObject.getObjectId();
                 }
             });
 
@@ -141,7 +143,7 @@ public class NewEntryActivity extends Activity {
                 // falls nur update gemacht werden soll...
                 if(mine){
                  Toast.makeText(NewEntryActivity.this, "update ok", Toast.LENGTH_SHORT).show();
-                    updateEntry();
+                    updateEntry(objectId);
                 }
                 else {
                     Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
@@ -194,7 +196,7 @@ public class NewEntryActivity extends Activity {
 
     }
 
-    private void updateEntry() {
+    private void updateEntry(String objectId) {
         // updated den vorhandenen entry...
         //EditText nameField = (EditText) findViewById(R.id.inputText);
         //String name = nameField.getText().toString();
@@ -211,7 +213,7 @@ public class NewEntryActivity extends Activity {
         Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle(), Toast.LENGTH_SHORT).show();
 
 
-        connection.updateEntry(pic, title, geschenk, price, description);
+        connection.updateEntry(objectId,pic, title, geschenk, price, description);
         this.finish();
     }
 

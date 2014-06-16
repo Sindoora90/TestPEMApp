@@ -2,8 +2,11 @@ package com.example.testpemapp.app;
 
 import android.graphics.Bitmap;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -86,7 +89,7 @@ public class ParseConnection {
 
 
 
-   public void createNewEntry(Bitmap pic, String title, boolean geschenk, double price, String description){
+   public void createNewEntry( Bitmap pic, String title, boolean geschenk, double price, String description){
 
        // Bild muss extra gespeichert werden:
 
@@ -109,27 +112,51 @@ public class ParseConnection {
     }
 
 
+
     // bisher macht sie dasselbe wie newEntry also erzeugt ein neues object aber es soll des vorhandene updaten (-> objectID?)
-    public void updateEntry(Bitmap pic, String title, boolean geschenk, double price, String description) {
+    public void updateEntry(String id,Bitmap pic, final String title, final boolean geschenk, final double price, final String description) {
+
+
+        // Bild updaten geht noch nicht
         // Bild muss extra gespeichert werden:
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        // hier richtig compressen...
-        pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bytearray = stream.toByteArray();
-        ParseFile file = new ParseFile("nameDesBildes.png", bytearray);
-        file.saveInBackground();
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        // hier richtig compressen...
+//        pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] bytearray = stream.toByteArray();
+//        final ParseFile file = new ParseFile("nameDesBildes.png", bytearray);
+//        file.saveInBackground();
 
-        // speichern des eigentlichen Entry Objekts mit einem Verweis auf das Bild:
+//        // speichern des eigentlichen Entry Objekts mit einem Verweis auf das Bild:
+//
+//        ParseObject newEntry = new ParseObject("Entry");
+//        newEntry.put("title", title);
+//        newEntry.put("geschenk", geschenk);
+//        newEntry.put("price", price);
+//        newEntry.put("description", description);
+//        newEntry.put("user", ParseUser.getCurrentUser());
+//        newEntry.put("picFile", file);
+//        newEntry.saveInBackground();
 
-        ParseObject newEntry = new ParseObject("Entry");
-        newEntry.put("title", title);
-        newEntry.put("geschenk", geschenk);
-        newEntry.put("price", price);
-        newEntry.put("description", description);
-        newEntry.put("user", ParseUser.getCurrentUser());
-        newEntry.put("picFile", file);
-        newEntry.saveInBackground();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
+
+// Retrieve the object by id
+        query.getInBackground(id, new GetCallback<ParseObject>() {
+            public void done(ParseObject newEntry, ParseException e) {
+                if (e == null) {
+                    newEntry.put("title", title);
+                    newEntry.put("geschenk", geschenk);
+                    newEntry.put("price", price);
+                    newEntry.put("description", description);
+                    newEntry.put("user", ParseUser.getCurrentUser());
+                    //newEntry.put("picFile", file);
+                    newEntry.saveInBackground();
+
+                }
+            }
+        });
+
+
 
     }
 }
