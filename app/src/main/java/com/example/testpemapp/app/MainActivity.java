@@ -329,13 +329,10 @@ public class MainActivity extends Activity {
                 drawerLayout.closeDrawer(drawerListView);
             }
 
-            if(((TextView) view).getText().toString().equals("My Shifts")){
+            if(((TextView) view).getText().toString().equals("Meine Shifts")){
                 // System.out.println(" piraten history sollt jz angezeigt werden miau miau");
-                //Intent myIntent = new Intent(view.getContext(), HistoryActivity.class);
-                //EditText editText = (EditText) findViewById(R.id.outputText);
-                //String message = editText.getText().toString();
-                //myIntent.putExtra(EXTRA_MESSAGE, message);
-                //startActivity(myIntent);
+                Intent myIntent = new Intent(view.getContext(), MyEntrys.class);
+                startActivity(myIntent);
                 // drawer schliessen noch rein
                 drawerLayout.closeDrawer(drawerListView);
 

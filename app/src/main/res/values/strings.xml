@@ -20,5 +20,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_friend">FriendActivity</string>
+    <string name="title_activity_my_entrys">MyEntrys</string>
 
 </resources>

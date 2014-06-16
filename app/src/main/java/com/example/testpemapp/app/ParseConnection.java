@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 public class ParseConnection {
 
     //Methoden die rein muessen:
-    
+
     // - createUser
     // - createNewEntry
     // - updateUser

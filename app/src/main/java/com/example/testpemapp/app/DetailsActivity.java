@@ -38,6 +38,8 @@ public class DetailsActivity extends Activity {
 
     String selected;
 
+    boolean mine;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class DetailsActivity extends Activity {
             Bundle bundle = getIntent().getExtras();
             int index = bundle.getInt("index");
              selected = bundle.getString("selected");
+            mine = bundle.getBoolean("mine");
 
             Toast.makeText(DetailsActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
 
