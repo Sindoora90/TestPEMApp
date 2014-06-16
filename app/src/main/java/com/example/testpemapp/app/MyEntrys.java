@@ -110,7 +110,7 @@ public class MyEntrys extends Activity {
         });
 
 
-// test 2 test 2 test 2
+
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
