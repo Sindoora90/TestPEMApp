@@ -45,7 +45,7 @@ public class MyEntrys extends Activity {
 
         // test test test 
 
-  
+
         lv = (ListView)findViewById(R.id.listView);
 
 
