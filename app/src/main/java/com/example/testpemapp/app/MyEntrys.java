@@ -129,6 +129,9 @@ public class MyEntrys extends Activity {
                 intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
                 startActivity(intent);
 
+
+                //test änderung
+
             }
         });
 
