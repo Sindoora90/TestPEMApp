@@ -9,7 +9,7 @@ import com.parse.ParseUser;
  */
 public class Entry {
 
-    public int id;
+    public String id;
     public String title;
     public boolean geschenk;
     public Bitmap picture;
@@ -26,7 +26,7 @@ public class Entry {
 
 
 
-    public Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+    public Entry(String id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
         this.id = id;
         this.title = title;
         this.geschenk = geschenk;
@@ -89,11 +89,11 @@ public class Entry {
         this.picture = picture;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

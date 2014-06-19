@@ -178,8 +178,7 @@
             android:layout_height="match_parent"
             android:id="@+id/imageButton3"
             android:layout_gravity="center_horizontal|top"
-            android:src="@drawable/ic_launcher"
-            android:onClick="onImageButtonClick" />
+            android:src="@drawable/ic_launcher" />
     </FrameLayout>
 
     <TextView

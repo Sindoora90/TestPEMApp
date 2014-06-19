@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
 
 
 
-        Entry eins = new Entry(0,"Teddy", true, BitmapFactory.decodeResource(getResources(), R.drawable.bri)
+        Entry eins = new Entry("","Teddy", true, BitmapFactory.decodeResource(getResources(), R.drawable.bri)
         ,0.00, "description blablabla", ParseUser.getCurrentUser());
 
         Entry[] values2 = new Entry[]{eins, eins, eins, eins, eins, eins, eins};
@@ -193,7 +193,7 @@ public class MainActivity extends Activity {
                         //        ,0.00, "description blablabla", ParseUser.getCurrentUser());
 
                         try {
-                            entry = new Entry(i, scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
+                            entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
 
                         Log.d("entry", entry.toString());
                         titleArray[i] = scoreList.get(i).getString("title");
@@ -227,6 +227,7 @@ public class MainActivity extends Activity {
                 intent.putExtra("index", arg2);
                 //gibt title mit
                 intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                intent.putExtra("objectIdTest", entrys[arg2].getId());
                 startActivity(intent);
 
                 //public void onListItemClick(ListView l, View v, int position, long id) {

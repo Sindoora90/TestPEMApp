@@ -2,13 +2,18 @@ package com.example.testpemapp.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,11 +23,14 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -35,8 +43,14 @@ import java.io.InputStream;
 
 public class NewEntryActivity extends Activity {
 
+    // fuer die cam:
+     final static String DEBUG_TAG = "NewEntryActivity";
+    private Camera camera;
+    private int cameraId = 0;
+
+
     private Entry entry;
-    int id = 0;
+    String id = "";
     String title;
     boolean geschenk;
     double price;
@@ -68,6 +82,10 @@ public class NewEntryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
 
+        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         connection = new ParseConnection();
 
         imageView = (ImageView) findViewById(R.id.imageButton3);
@@ -90,6 +108,28 @@ public class NewEntryActivity extends Activity {
             Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
 
         }
+
+        // fuer die Cam:
+        // do we have a camera?
+        if (!getPackageManager()
+                .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            cameraId = findFrontFacingCamera();
+            if (cameraId < 0) {
+                Toast.makeText(this, "No front facing camera found.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                camera = Camera.open(cameraId);
+                Toast.makeText(this, "CAM sollt funzen.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+        imageView = (ImageView)findViewById(R.id.imageButton3);
 
         // ueber parsequery object holen und an die passenden stellen die werte eintragen
         // update methode von parse aufrufen bei ok
@@ -134,6 +174,10 @@ public class NewEntryActivity extends Activity {
             });
 
         }
+
+
+        // fuer floating menu
+        registerForContextMenu(imageView);
 
 
         Button b = (Button) findViewById(R.id.button);
@@ -195,6 +239,39 @@ public class NewEntryActivity extends Activity {
         });
 
     }
+
+    // fuer die Cam:
+    public void onCamClick() {
+        camera.takePicture(null, null,
+                new PhotoHandler(getApplicationContext()));
+    }
+
+    private int findFrontFacingCamera() {
+        int cameraId = -1;
+        // Search for the front facing camera
+        int numberOfCameras = Camera.getNumberOfCameras();
+        for (int i = 0; i < numberOfCameras; i++) {
+            CameraInfo info = new CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+                Log.d(DEBUG_TAG, "Camera found");
+                cameraId = i;
+                break;
+            }
+        }
+        return cameraId;
+    }
+
+    @Override
+    protected void onPause() {
+        if (camera != null) {
+            camera.release();
+            camera = null;
+        }
+        super.onPause();
+    }
+
+
 
     private void updateEntry(String objectId) {
         // updated den vorhandenen entry...
@@ -293,7 +370,7 @@ public class NewEntryActivity extends Activity {
         //funzt bis hier
     }
 
-    public void onImageButtonClick(View View) {
+    public void onImageButtonClick() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -360,4 +437,35 @@ public class NewEntryActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    // fuer floating context menu:
+
+    /** This will be invoked when an item in the listview is long pressed */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.actions , menu);
+    }
+
+    /** This will be invoked when a menu item is selected */
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch(item.getItemId()){
+            case R.id.menu_item_camera:
+                onCamClick();
+                Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_item_galerie:
+                onImageButtonClick();
+                Toast.makeText(this, "Share : "  , Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+        return true;
+    }
 }
