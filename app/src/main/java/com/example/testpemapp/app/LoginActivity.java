@@ -3,14 +3,17 @@ package com.example.testpemapp.app;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
@@ -28,6 +31,7 @@ public class LoginActivity extends Activity {
     EditText pw;
     EditText phone;
     EditText adr;
+    TextView description;
 
 
     @Override
@@ -38,6 +42,13 @@ public class LoginActivity extends Activity {
         Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
+        description = (TextView) findViewById(R.id.logintextView);
+
+        // other font_family:
+        //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/segoe-ui-1361529660.ttf");
+        //description.setTypeface(tf);
 
         Button b = (Button) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
