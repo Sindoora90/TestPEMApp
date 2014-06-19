@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 import java.util.List;
 
@@ -45,6 +48,9 @@ public class MyEntrys extends Activity {
 
         // test test test 
 
+        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         lv = (ListView)findViewById(R.id.listView);
 
@@ -85,7 +91,7 @@ public class MyEntrys extends Activity {
                         //        ,0.00, "description blablabla", ParseUser.getCurrentUser());
 
                         try {
-                            entry = new Entry(i, scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
+                            entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
 
                             Log.d("entry", entry.toString());
                             Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();

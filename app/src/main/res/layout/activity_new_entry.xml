@@ -183,6 +183,7 @@
             android:textColor="#898989"
             android:id="@+id/textView" />
 
+<<<<<<< HEAD
         <EditText
             android:layout_marginLeft="30px"
             android:layout_width="wrap_content"
@@ -194,6 +195,19 @@
             android:layout_marginTop="5px"
             android:background="@null"
             android:id="@+id/editText2" />
+=======
+    <FrameLayout
+        android:layout_width="342dp"
+        android:layout_height="133dp">
+
+        <ImageButton
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton3"
+            android:layout_gravity="center_horizontal|top"
+            android:src="@drawable/ic_launcher" />
+    </FrameLayout>
+>>>>>>> origin/master
 
     </LinearLayout>
 

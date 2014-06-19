@@ -22,4 +22,7 @@
     <string name="title_activity_friend">FriendActivity</string>
     <string name="title_activity_my_entrys">MyEntrys</string>
 
+    <string name="galerie">Galerie</string>
+    <string name="camera">Camera</string>
+
 </resources>

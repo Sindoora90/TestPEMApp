@@ -13,16 +13,20 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 
 public class DetailsActivity extends Activity {
 
 
+    String objectId;
     String title;
     String description;
     String name;
@@ -47,6 +51,9 @@ public class DetailsActivity extends Activity {
         setContentView(R.layout.activity_details);
 
 
+        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         if (savedInstanceState == null) {
 
@@ -55,9 +62,11 @@ public class DetailsActivity extends Activity {
             Bundle bundle = getIntent().getExtras();
             int index = bundle.getInt("index");
              selected = bundle.getString("selected");
+            objectId = bundle.getString("objectIdTest");
             mine = bundle.getBoolean("mine");
 
-            Toast.makeText(DetailsActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DetailsActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailsActivity.this, "objectid: " + objectId, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -69,7 +78,8 @@ public class DetailsActivity extends Activity {
         titleTextView = (TextView)findViewById(R.id.textView3);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
-        query.whereEqualTo("title", selected);
+        //query.whereEqualTo("title", selected);
+        query.whereEqualTo("objectId", objectId);
         query.include("user");
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
