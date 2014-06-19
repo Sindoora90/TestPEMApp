@@ -89,149 +89,183 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#e5e5e5"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:weightSum="1">
+   >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_marginTop="3px"
+        android:layout_marginRight="3px"
+        android:layout_marginLeft="3px"
+        android:paddingRight="5px"
+        android:paddingLeft="5px"
+        android:paddingTop="5px"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="300px"
+            android:id="@+id/imageButton3"
+            android:layout_centerHorizontal="true"
+            android:onClick="onImageButtonClick"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_action_new_picture"/>
+    </RelativeLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="62dp">
+        android:layout_height="wrap_content"
+        android:padding="10px"
+        android:layout_margin="10px"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        >
 
-        <RelativeLayout
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="127dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Titel"
-                android:id="@+id/textView"
-                android:layout_weight="0.28"
-                android:layout_gravity="left|center_vertical"
-                android:layout_alignBottom="@+id/titleEditText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="34dp"
-                android:layout_toLeftOf="@+id/titleEditText" />
-
-            <EditText
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/titleEditText"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="32dp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp">
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <ImageButton
-                android:layout_width="50px"
-                android:layout_height="50px"
-                android:id="@+id/imageButton"
-                android:src="@drawable/ic_launcher"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/imageButton2"
-                android:layout_marginRight="25dp" />
-
-            <ImageButton
-                android:layout_width="50px"
-                android:layout_height="50px"
-                android:id="@+id/imageButton2"
-                android:src="@drawable/ic_launcher"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/editText2"
-                android:layout_marginRight="34dp" />
+            android:src="@drawable/borderline2"
+            android:scaleType="fitCenter"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_marginTop="10px"  />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/editText2"
-                android:layout_marginRight="28dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+                android:id="@+id/titleEditText"
+                android:textSize="11pt"
+                android:textColor="#91edb8"
+                android:hint="Titel"
+                android:background="@null"
+                android:layout_marginLeft="20px"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="20px" />
+
+
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:src="@drawable/borderline2"
+            android:scaleType="fitCenter"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3" />
+
+    <LinearLayout
+        android:layout_marginLeft="30px"
+        android:orientation="horizontal"
+        android:layout_marginTop="10px"
+        android:layout_marginBottom="10px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+            <ImageButton
+                android:layout_width="50px"
+                android:layout_height="50px"
+                android:scaleType="centerCrop"
+                android:background="#ffffff"
+                android:id="@+id/imageButton"
+                android:src="@drawable/gift"
+                android:layout_gravity="top"
+                android:layout_toLeftOf="@+id/imageButton2"
+                android:layout_marginRight="40px" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="oder"
+            android:textSize="10pt"
+            android:layout_marginTop="5px"
+            android:textStyle="italic"
+            android:textColor="#898989"
+            android:id="@+id/textView" />
+
+        <EditText
+            android:layout_marginLeft="30px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="10pt"
+            android:ems="10"
+            android:hint="Preis"
+            android:layout_marginTop="5px"
+            android:background="@null"
+            android:id="@+id/editText2" />
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="342dp"
-        android:layout_height="133dp">
-
-        <ImageButton
-            android:layout_width="170dp"
-            android:layout_height="match_parent"
-            android:id="@+id/imageButton3"
-            android:layout_gravity="center_horizontal|top"
-            android:src="@drawable/ic_launcher"
-            android:onClick="onImageButtonClick" />
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Beschreibung"
-        android:id="@+id/textView2" />
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="166dp"
-        android:layout_weight="0.47">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:src="@drawable/borderline2"
+            android:scaleType="fitCenter"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2" />
 
         <EditText
+            android:layout_weight="1"
+            android:layout_marginLeft="30px"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:ems="10"
+            android:textSize="9pt"
+            android:background="@null"
+            android:hint="Beschreibung"
             android:id="@+id/editText3"
-            android:layout_gravity="left|top" />
-    </FrameLayout>
+             />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:src="@drawable/borderline2"
+            android:scaleType="fitCenter"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10px"
+            android:id="@+id/imageView2" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <Button
+            <ImageButton
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OK"
-                android:id="@+id/button"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="35dp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abbrechen"
+                android:layout_height="120px"
                 android:id="@+id/button2"
-                android:layout_marginRight="44dp"
-                android:layout_alignTop="@+id/button"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+                android:src="@drawable/ic_action_cancel"
+                android:background="@android:color/white"
+                android:scaleType="fitCenter"
+              />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:src="@drawable/button_trennstrich2"
+            android:scaleType="fitCenter"
+            android:id="@+id/imageView"
+             />
+
+        <ImageButton
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="120px"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_accept"
+                android:background="@android:color/white"
+                android:id="@+id/button"
+              />
+
     </LinearLayout>
 
 </LinearLayout>
