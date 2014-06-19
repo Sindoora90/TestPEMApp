@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="10px"
+    android:layout_marginRight="10px"
+    android:layout_marginTop="10px"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:layout_marginLeft="4px"
+        android:layout_marginRight="10px"
+        android:layout_marginTop="4px"
+        android:src="@drawable/ic_launcher" >
+    </ImageView>
+
+
+
+<!--    <RelativeLayout android:layout_width="134dp" android:layout_height="121dp">
+        <ImageView
+            android:layout_width="250px"
+            android:layout_height="250px"
+            android:layout_marginLeft="4px"
+            android:layout_marginTop="4px"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentBottom="true" />
+        <ImageView
+            android:src="@drawable/fri"
+            android:layout_width="60px"
+            android:layout_height="60px"
+            android:layout_marginLeft="4px"
+            android:layout_marginRight="10px"
+            android:layout_marginTop="4px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+-->
+
+    <GridLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="300px">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="10pt"
+            android:text="Name"
+            android:layout_marginLeft="20px"
+            android:layout_row="1"
+            android:layout_column="0">
+        </TextView>
+
+        <TextView
+            android:layout_marginLeft="30px"
+        android:id="@+id/label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#898989"
+        android:text="Besitzer"
+        android:textStyle="italic"
+        android:textSize="10pt"
+            android:layout_row="2"
+            android:layout_column="0">
+    </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Preis"
+            android:layout_marginRight="20px"
+            android:textSize="15pt"
+            android:textStyle="bold"
+            android:id="@+id/textView"
+            android:gravity="bottom|right"
+            android:layout_row="6"
+            android:layout_column="2" />
+    </GridLayout>
+
+</LinearLayout>
