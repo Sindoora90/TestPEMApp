@@ -15,7 +15,6 @@ import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
@@ -26,6 +25,9 @@ import java.util.List;
 // es sollen alle freunde angezeigt werden in einer einfachen liste
 
 public class FriendActivity extends Activity {
+
+    Person person;
+    Person[] persons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,11 @@ public class FriendActivity extends Activity {
         System.out.println("---------------------->"+cursor.getCount());
         if(cursor.getCount() >0){
             countContact = cursor.getCount();
+
+            // test:
+            persons = new Person[countContact];
+            int counter = 0;
+
             while(cursor.moveToNext()){
                 String contact_id = cursor.getString(cursor.getColumnIndex(_ID));
                 String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
@@ -121,11 +128,15 @@ public class FriendActivity extends Activity {
                 //------------------- Catch phone number, neu phone >0 thi get phone, ko thi lam chuyen khac
                 //if(hasPhoneNumber > 0 ){
                 output.append("\nFirst Name: "+name);
+                person = new Person(name,"");
+
+
                 // Query and loop for every phone number of the contact
                 Cursor phoneCursor = contentResolver.query(PHONECONTENT_URI, null, PHONECONTACT_ID + "=?", new String[]{contact_id}, null);
                 while(phoneCursor.moveToNext()){
                     phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
                     output.append("\n Phone number: "+phoneNumber);
+                    person.setTelnr(phoneNumber);
                 }
                 phoneCursor.close();
                 // Query and loop for every email of the contact
@@ -139,10 +150,17 @@ public class FriendActivity extends Activity {
                 //}
                 output.append("\n");
 
+                persons[counter] = person;
+                counter++;
 
             }
             cursor.close();
         }
+
+        for(int i = 0; i < persons.length; i++){
+            System.out.println(persons[i].getName()+ " tel: " + persons[i].getTelnr());
+        }
+
         //txtViewContactsInfor.setText("Contacts: "+String.valueOf(countContact));
         //outputText.setText(output.toString());
 
@@ -152,30 +170,49 @@ public class FriendActivity extends Activity {
 
 
 
-        // speichern des eigentlichen Contacts objekts mit Verweis zu sich selbst
-        ParseObject newContact = new ParseObject("Friend");
-        //newContact.put("email", email);
-        newContact.put("user", ParseUser.getCurrentUser());
-       // newContact.put("with", friendname);
-        newContact.saveInBackground();
+//        // speichern des eigentlichen Contacts objekts mit Verweis zu sich selbst
+//        ParseObject newContact = new ParseObject("Friend");
+//        //newContact.put("email", email);
+//        newContact.put("user", ParseUser.getCurrentUser());
+//       // newContact.put("with", friendname);
+//        newContact.saveInBackground();
 
 
         // hole daten und vergleiche:
 
-        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Contact");
-        innerQuery.whereExists("nummer");
+//        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Contact");
+//        innerQuery.whereExists("nummer");
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Contact");
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            public void done(List<ParseObject> commentList, ParseException e) {
+//                // comments now contains the comments for posts with images.
+//
+//
+//            }
+//        });
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Contact");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> commentList, ParseException e) {
-                // comments now contains the comments for posts with images.
 
-
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        //query.whereEqualTo("gender", "female");
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    // The query was successful.
+                    for(int j = 0; j < objects.size(); j++){
+                        for(int i = 0; i < persons.length; i++){
+                            System.out.println(persons[i].getName()+ " tel: " + persons[i].getTelnr());
+                        }
+                    }
+                } else {
+                    // Something went wrong.
+                }
             }
         });
 
-
-
+        for(int i = 0; i < persons.length; i++){
+            System.out.println(persons[i].getName()+ " tel: " + persons[i].getTelnr());
+        }
 
 
         t1.setText("Contacts: " + String.valueOf(countContact));
