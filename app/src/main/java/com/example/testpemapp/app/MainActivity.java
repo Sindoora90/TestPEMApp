@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
             // show the signup or login screen
 
         Intent intent = new Intent();
-        intent.setClassName(getPackageName(), getPackageName() + ".LoginActivity");
+        intent.setClassName(getPackageName(), getPackageName() + ".SignUpActivity");
         //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
         startActivity(intent);
         Toast.makeText(MainActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();

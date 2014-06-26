@@ -19,7 +19,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 
-public class LoginActivity extends Activity {
+public class SignUpActivity extends Activity {
 
     EditText name;
     EditText email;
@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
 //        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
 //        PushService.setDefaultPushCallback(this, MainActivity.class);
@@ -76,25 +76,26 @@ public class LoginActivity extends Activity {
          phone = (EditText)findViewById(R.id.editText4);
          adr = (EditText)findViewById(R.id.editText5);
 
+        //TODO falls leere felder -> absturz
         ParseUser user = new ParseUser();
-        user.setUsername(""+name.getText().toString());
-        user.setPassword(""+pw.getText().toString());
-        user.setEmail(""+email.getText().toString());
+        user.setUsername(name.getText().toString());
+        user.setPassword(pw.getText().toString());
+        user.setEmail(email.getText().toString());
 
-        user.put("phone", ""+phone.getText().toString());
+        user.put("phone",phone.getText().toString());
         user.put("adr", adr.getText().toString());
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
                     // Hooray! Let them use the app now.
-                    Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong
 
                     //TODO sign in nochmal zeigen
-                    Toast.makeText(LoginActivity.this, "failed to register", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "failed to register", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -185,9 +186,9 @@ public class LoginActivity extends Activity {
         //txtViewContactsInfor.setText("Contacts: "+String.valueOf(countContact));
         //outputText.setText(output.toString());
 
-        Toast.makeText(LoginActivity.this, "Contacts: "+String.valueOf(countContact), Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUpActivity.this, "Contacts: "+String.valueOf(countContact), Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(LoginActivity.this, output.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUpActivity.this, output.toString(), Toast.LENGTH_SHORT).show();
 
 
 

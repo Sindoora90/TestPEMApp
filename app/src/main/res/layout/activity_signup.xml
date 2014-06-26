@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:background="#ffffff"
     android:layout_height="fill_parent"
-    tools:context="com.example.testpemapp.app.LoginActivity">
+    tools:context="com.example.testpemapp.app.SignUpActivity">
 
     <LinearLayout
         android:orientation="vertical"
