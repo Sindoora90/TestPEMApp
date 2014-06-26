@@ -9,37 +9,84 @@
     android:background="#e5e5e5"
     tools:context="com.example.testpemapp.app.FriendActivity">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView"
-        android:layout_marginTop="59dp"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="85dp">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="226dp"
+                android:layout_height="75dp">
 
-        <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Bitte e-mail eingeben:"
+                    android:id="@+id/textView2" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/editText" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton"
+                android:src="@drawable/plus_zeichen" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+        <ListView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView3"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/textView" />
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:textColor="#000000"
+            android:divider="#666"
+            android:dividerHeight="1dp"
+
+            android:textSize="10pt"
+            android:paddingLeft="15sp"
+            android:paddingRight="15sp"
+            android:id="@+id/listView" />
+
+        <!--   <ScrollView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/scrollView"
+               android:layout_alignParentLeft="true"
+               android:layout_alignParentStart="true" >
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textAppearance="?android:attr/textAppearanceMedium"
+                   android:text="Medium Text"
+                   android:id="@+id/textView3"
+                   android:layout_centerVertical="true"
+                   android:layout_toLeftOf="@+id/textView" />
+           </ScrollView>
+           -->
+
+    </LinearLayout>
 
 </RelativeLayout>

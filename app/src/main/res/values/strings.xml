@@ -8,6 +8,7 @@
     <string name="title_activity_new_entry">Neuer Eintrag </string>
     <string name="add_entry">New</string>
     <string name="title_activity_login">Login</string>
+    <string name="load_entry">Load</string>
 
     <string-array name="items">
         <item>FriendShifts</item>
@@ -24,5 +25,6 @@
 
     <string name="galerie">Galerie</string>
     <string name="camera">Camera</string>
+
 
 </resources>

@@ -3,24 +3,19 @@ package com.example.testpemapp.app;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
-import com.parse.PushService;
 import com.parse.SignUpCallback;
 
 
@@ -39,10 +34,10 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-
+//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+//        PushService.setDefaultPushCallback(this, MainActivity.class);
+//        ParseInstallation.getCurrentInstallation().saveInBackground();
+//
 
         description = (TextView) findViewById(R.id.logintextView);
 
@@ -50,7 +45,7 @@ public class LoginActivity extends Activity {
         //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/segoe-ui-1361529660.ttf");
         //description.setTypeface(tf);
 
-        Button b = (Button) findViewById(R.id.button);
+        ImageButton b = (ImageButton) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +55,7 @@ public class LoginActivity extends Activity {
 
                 registerNewUser();
                 getFriends();
-                finish();
+                //finish();
             }
         });
 
@@ -82,11 +77,11 @@ public class LoginActivity extends Activity {
          adr = (EditText)findViewById(R.id.editText5);
 
         ParseUser user = new ParseUser();
-        user.setUsername(name.getText().toString());
-        user.setPassword(pw.getText().toString());
-        user.setEmail(email.getText().toString());
+        user.setUsername(""+name.getText().toString());
+        user.setPassword(""+pw.getText().toString());
+        user.setEmail(""+email.getText().toString());
 
-        user.put("phone", phone.getText().toString());
+        user.put("phone", ""+phone.getText().toString());
         user.put("adr", adr.getText().toString());
 
         user.signUpInBackground(new SignUpCallback() {
@@ -94,8 +89,11 @@ public class LoginActivity extends Activity {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                     Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong
+
+                    //TODO sign in nochmal zeigen
                     Toast.makeText(LoginActivity.this, "failed to register", Toast.LENGTH_SHORT).show();
                 }
             }

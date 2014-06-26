@@ -195,7 +195,8 @@
                 android:id="@+id/imageButton"
                 android:scaleType="fitCenter"
                 android:background="@android:color/white"
-                android:src="@drawable/telefon" />
+                android:src="@drawable/telefon"
+                android:onClick="callFriend"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -214,7 +215,7 @@
                 android:background="@android:color/white"
                 android:src="@drawable/mail"
                 android:scaleType="fitCenter"
-                />
+                android:onClick="sendMail"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -233,7 +234,7 @@
                 android:background="@android:color/white"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/maps"
-                 />
+                android:onClick="findLoc" />
         </LinearLayout>
 
 

@@ -14,23 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -75,20 +70,20 @@ public class NewEntryActivity extends Activity {
 
     private static final int REQUEST_CODE = 1;
     private Bitmap bitmap;
-    private ImageView imageView;
+    private ImageButton imageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
 
-        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+//        PushService.setDefaultPushCallback(this, MainActivity.class);
+//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         connection = new ParseConnection();
 
-        imageView = (ImageView) findViewById(R.id.imageButton3);
+        imageView = (ImageButton) findViewById(R.id.imageButton3);
 
         price = 0.00;
         description = "";
@@ -129,7 +124,7 @@ public class NewEntryActivity extends Activity {
 
 
 
-        imageView = (ImageView)findViewById(R.id.imageButton3);
+        imageView = (ImageButton)findViewById(R.id.imageButton3);
 
         // ueber parsequery object holen und an die passenden stellen die werte eintragen
         // update methode von parse aufrufen bei ok
@@ -137,7 +132,7 @@ public class NewEntryActivity extends Activity {
 
             //nameTextView = (TextView)findViewById(R.id.textView);
             descTextView = (TextView)findViewById(R.id.editText3);
-            imageView = (ImageView)findViewById(R.id.imageButton3);
+            imageView = (ImageButton)findViewById(R.id.imageButton3);
             priceTextView = (TextView)findViewById(R.id.editText2);
             titleTextView = (TextView)findViewById(R.id.titleEditText);
 
@@ -180,7 +175,7 @@ public class NewEntryActivity extends Activity {
         registerForContextMenu(imageView);
 
 
-        Button b = (Button) findViewById(R.id.button);
+        ImageButton b = (ImageButton) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,7 +191,7 @@ public class NewEntryActivity extends Activity {
             }
         });
 
-        Button abr = (Button) findViewById(R.id.button2);
+        ImageButton abr = (ImageButton) findViewById(R.id.button2);
         abr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,35 +203,41 @@ public class NewEntryActivity extends Activity {
 
 
         final ImageButton geschenkButton = (ImageButton) findViewById(R.id.imageButton);
-        final ImageButton kaufButton = (ImageButton) findViewById(R.id.imageButton2);
+        //final ImageButton kaufButton = (ImageButton) findViewById(R.id.imageButton2);
         final EditText priceEditText = (EditText) findViewById(R.id.editText2);
         geschenkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(NewEntryActivity.this, "image1 clicked", Toast.LENGTH_SHORT).show();
-                geschenkButton.setImageResource(R.drawable.bri);
-                kaufButton.setImageResource(R.drawable.ic_launcher);
-                priceEditText.setText("0.00");
-                priceEditText.setEnabled(false);
-                geschenk = true;
-                price = 0.00;
+                //geschenkButton.setImageResource(R.drawable.bri);
+               // kaufButton.setImageResource(R.drawable.ic_launcher);
+
+                if(geschenk==false){
+                    priceEditText.setText("0.00");
+                    priceEditText.setEnabled(false);
+                    geschenk = true;
+                    price = 0.00;}
+                else{
+                    geschenk = false;
+                    priceEditText.setEnabled(true);
+                }
 
             }
         });
 
 
 
-        kaufButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NewEntryActivity.this, "image2 clicked", Toast.LENGTH_SHORT).show();
-                geschenkButton.setImageResource(R.drawable.fri);
-                kaufButton.setImageResource(R.drawable.bri);
-                priceEditText.setEnabled(true);
-                geschenk = false;
-
-            }
-        });
+//        kaufButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(NewEntryActivity.this, "image2 clicked", Toast.LENGTH_SHORT).show();
+//                geschenkButton.setImageResource(R.drawable.fri);
+//                kaufButton.setImageResource(R.drawable.bri);
+//                priceEditText.setEnabled(true);
+//                geschenk = false;
+//
+//            }
+//        });
 
     }
 

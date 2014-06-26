@@ -16,14 +16,11 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
 
 import java.util.List;
 
@@ -48,9 +45,9 @@ public class MyEntrys extends Activity {
 
         // test test test 
 
-        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+//        PushService.setDefaultPushCallback(this, MainActivity.class);
+//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         lv = (ListView)findViewById(R.id.listView);
 
@@ -61,7 +58,7 @@ public class MyEntrys extends Activity {
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
-                if (e == null) {
+                if (e == null && scoreList.size()>0) {
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                     entrys = new Entry[scoreList.size()];
                     titleArray = new String[scoreList.size()];
@@ -101,15 +98,19 @@ public class MyEntrys extends Activity {
                             e1.printStackTrace();
                         }
                     }
+                    MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), titleArray, entrys);
+                    lv.setAdapter(adapter);
+                    Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+
 
 
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
+                    Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+
+
                 }
                 Log.d("allentrys: ", "Entry array dass an main geschickt werden soll: " + entrys);
-                MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), titleArray, entrys);
-                lv.setAdapter(adapter);
-                Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
 
             }
