@@ -7,7 +7,7 @@
         android:id="@+id/menu_load"
         android:orderInCategory="1"
         android:showAsAction="always"
-        android:icon="@drawable/ic_launcher_standard"
+        android:icon="@drawable/ic_action_refresh"
         android:title="@string/load_entry"/>
 
     <item android:id="@+id/action_settings"
