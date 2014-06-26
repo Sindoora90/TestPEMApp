@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class DetailsActivity extends Activity {
     TextView descTextView;
     TextView priceTextView;
     ImageButton imageView;
+    ImageView geschenkView;
 
     String selected;
 
@@ -75,7 +77,7 @@ public class DetailsActivity extends Activity {
         imageView = (ImageButton) findViewById(R.id.imageView);
         priceTextView = (TextView) findViewById(R.id.textView4);
         titleTextView = (TextView) findViewById(R.id.textView3);
-
+        geschenkView = (ImageView)findViewById(R.id.imageView2);
         telButton = (ImageButton) findViewById(R.id.imageButton);
         mailButton = (ImageButton)findViewById(R.id.imageButton2);
         mapsButton = (ImageButton)findViewById(R.id.imageButton3);
@@ -116,7 +118,12 @@ public class DetailsActivity extends Activity {
                 nameTextView.setText(name);
                 titleTextView.setText(title);
                 descTextView.setText(description);
-                priceTextView.setText(price + "€");
+                if(price == 0.0){
+                    priceTextView.setVisibility(View.GONE);
+                }else{
+                    priceTextView.setText( price + "€");
+                    geschenkView.setVisibility(View.GONE);
+                }
             }
         });
 

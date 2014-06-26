@@ -27,10 +27,19 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.simplerow, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.label);
         TextView textView2 = (TextView) rowView.findViewById(R.id.label2);
+        TextView preis = (TextView) rowView.findViewById(R.id.textView);
+        ImageView geschenk = (ImageView) rowView.findViewById(R.id.geschenkview);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         textView.setText(values[position]);
-        textView2.setText("eingestellt von:   " + val[position].getName().getUsername() +  " (position: " +  position + ")");
+       // textView2.setText("eingestellt von:   " + val[position].getName().getUsername() +  " (position: " +  position + ")");
         // Change the icon for Windows and iPhone
+        textView2.setText("von: " + val[position].getName().getUsername() +  " (position: " +  position + ")");
+        if(val[position].isGeschenk()){
+            preis.setVisibility(View.GONE);
+        }else{
+            geschenk.setVisibility(View.GONE);
+            preis.setText(Double.toString(val[position].getPrice()) + " €");
+        }
         String s = values[position];
         //if (s.startsWith("Windows7") || s.startsWith("iPhone")
           //      || s.startsWith("Solaris")) {
