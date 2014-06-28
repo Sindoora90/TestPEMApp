@@ -105,6 +105,7 @@ public class MyEntrys extends Activity {
 
 
                 } else {
+                    // TODO falls liste leer und man noch keine einträge hat -> aktuell fehler
                     Log.d("score", "Error: " + e.getMessage());
                     Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
