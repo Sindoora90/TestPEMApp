@@ -149,6 +149,12 @@ public class FriendActivity extends Activity {
                         //follow.put("date", Date());
                         follow.saveInBackground();
 
+                        ParseObject followed = new ParseObject("Friendship");
+                        followed.put("fromUser", objects.get(0));
+                        followed.put("toUser", ParseUser.getCurrentUser());
+                        //follow.put("date", Date());
+                        followed.saveInBackground();
+
                         //TODO: PushNotification an den Freund
                         createFriendListView();
                         Toast.makeText(FriendActivity.this, "you and "+emailAdresse+" are now friends", Toast.LENGTH_SHORT).show();

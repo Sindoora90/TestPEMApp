@@ -55,6 +55,7 @@ public class MyEntrys extends Activity {
         //ParseQuery die nur meine Entrys zurueckgeben:
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
         query.include("user");
+        query.orderByDescending("createdAt");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
@@ -104,9 +105,35 @@ public class MyEntrys extends Activity {
 
 
 
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                    {
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+                        {
+                            // entweder detailview erst aufrufen oder gleich die newEntry mit den fertigen werten.. ?
+                            // bzw des parseobjekt an die newEntry über intent mitgeben ?
+                            Intent intent = new Intent();
+                            intent.setClassName(getPackageName(), getPackageName()+".NewEntryActivity");
+                            intent.putExtra("index", arg2);
+                            //gibt title mit
+                            intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                            intent.putExtra("mine", true); // falls es sich um meine eigenen handelt muss detailview bescheid wissen
+
+                            //parseobject wenns geht
+                            //intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
+                            startActivity(intent);
+
+
+                            //test änderung
+
+                        }
+                    });
+
+
+
                 } else {
                     // TODO falls liste leer und man noch keine einträge hat -> aktuell fehler
-                    Log.d("score", "Error: " + e.getMessage());
+                    //Log.d("score", "Error: " + e.getMessage());
                     Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
 
@@ -120,30 +147,6 @@ public class MyEntrys extends Activity {
 
 
 
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-            {
-                // entweder detailview erst aufrufen oder gleich die newEntry mit den fertigen werten.. ?
-                // bzw des parseobjekt an die newEntry über intent mitgeben ?
-                Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName()+".NewEntryActivity");
-                intent.putExtra("index", arg2);
-                //gibt title mit
-                intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-                intent.putExtra("mine", true); // falls es sich um meine eigenen handelt muss detailview bescheid wissen
-
-                //parseobject wenns geht
-                //intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
-                startActivity(intent);
-
-
-                //test änderung
-
-            }
-        });
 
 
 
