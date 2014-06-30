@@ -1,8 +1,10 @@
 package com.example.testpemapp.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +26,8 @@ import com.parse.ParseUser;
 
 public class DetailsActivity extends Activity {
 
+
+    Person entryUser;
 
     String objectId;
     String title;
@@ -97,6 +101,7 @@ public class DetailsActivity extends Activity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 //TODO if parseObject!=null einfügen sonst fehler..
+
                 title = parseObject.getString("title");
                 description = parseObject.getString("description");
                 name = ((ParseUser) parseObject.get("user")).getUsername();
@@ -118,6 +123,14 @@ public class DetailsActivity extends Activity {
                 nameTextView.setText(name);
                 titleTextView.setText(title);
                 descTextView.setText(description);
+
+                ParseUser user = (ParseUser) parseObject.get("user");
+                //String id, String name, String telnr, String email, String adresse
+                //TODO keys überprüfen...
+                entryUser = new Person(user.getObjectId(), user.getUsername(), user.getString("phone"),user.getEmail(), user.getString("adr"));
+                System.out.println("entryUser email: " + entryUser.getEmail());
+                System.out.println("entryUser telnr: " + entryUser.getTelnr());
+
                 if(price == 0.0){
                     priceTextView.setVisibility(View.GONE);
                 }else{
@@ -159,11 +172,49 @@ public class DetailsActivity extends Activity {
     //TODO: Methoden fehlen noch...
      public void callFriend(View view){
         Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
+         Log.i("Make call", "");
+
+         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+         String tel = entryUser.getTelnr();
+         phoneIntent.setData(Uri.parse("tel:"+tel));
+
+         try {
+             startActivity(phoneIntent);
+            // finish();
+             Log.i("Finished making a call...", "");
+         } catch (android.content.ActivityNotFoundException ex) {
+             Toast.makeText(DetailsActivity.this,
+                     "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+         }
 
     }
 
     public void sendMail(View view){
         Toast.makeText(DetailsActivity.this, "sendMail aufgerufen: ", Toast.LENGTH_SHORT).show();
+        Log.i("Send email", "");
+
+        String[] TO = {entryUser.getEmail()};
+       // String[] TO = {"badri90@gmx.de"};
+       // String[] CC = {"mcmohd@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        //emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "FriendShift");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi ich hätte Interesse an dein Angebot: " + title);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            //finish();
+            Log.i("Finished sending email...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(DetailsActivity.this,
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 
