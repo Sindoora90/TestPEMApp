@@ -209,9 +209,10 @@ public class MainActivity extends Activity {
                 // comments now contains the comments for posts with images.
 
                 if (e == null && friendlist.size() > 0) {
-                    ParseUser[] names = new ParseUser[friendlist.size()];
+                    ParseUser[] names = new ParseUser[friendlist.size()+1];
+                    names[0] = ParseUser.getCurrentUser();
                     for (int i = 0; i < friendlist.size(); i++) {
-                        names[i] = (ParseUser) friendlist.get(i).get("toUser");
+                        names[i+1] = (ParseUser) friendlist.get(i).get("toUser");
                         System.out.println("friendsID: " + names[i]);
 
                         ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
