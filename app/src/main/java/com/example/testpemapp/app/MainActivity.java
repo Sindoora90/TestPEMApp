@@ -14,9 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -38,8 +36,11 @@ public class MainActivity extends Activity {
 
     // NavDrawer
     private String[] drawerListViewItems;
+    private int[] drawerIcons;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
+    private CharSequence mTitle;
+    NavListAdapter mNavAdapter;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     ParseConnection connection;
 
@@ -389,12 +390,20 @@ public class MainActivity extends Activity {
         // get list items from strings.xml
         drawerListViewItems = getResources().getStringArray(R.array.items);
 
+
+        //TODO später einkommentieren
+        //drawer list icons
+        drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_discard, R.drawable.ic_action_settings};
+
         // get ListView defined in activity_main.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        drawerListView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_listview_item, drawerListViewItems));
+        //drawerListView.setAdapter(new ArrayAdapter<String>(this,
+        //        R.layout.drawer_listview_item, drawerListViewItems));
+        //TODO des drüber auskommentieren und des drunter ein
+        mNavAdapter = new NavListAdapter(this, drawerListViewItems, drawerIcons);
+        drawerListView.setAdapter(mNavAdapter);
 
         // App Icon
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -421,43 +430,72 @@ public class MainActivity extends Activity {
 
     }
 
+//TODO meinen draweritemclicklistener auskommentieren und den drunter rein
+//    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+//        @Override
+//        public void onItemClick(AdapterView parent, View view, int position, long id) {
+//
+//            if (((TextView) view).getText().toString().equals("FriendShifts")) {
+//                // System.out.println("drawer soll geschlossen werden");
+//                drawerLayout.closeDrawer(drawerListView);
+//            }
+//
+//            if (((TextView) view).getText().toString().equals("Meine Shifts")) {
+//                // System.out.println(" piraten history sollt jz angezeigt werden miau miau");
+//                Intent myIntent = new Intent(view.getContext(), MyEntrys.class);
+//                startActivity(myIntent);
+//                // drawer schliessen noch rein
+//                drawerLayout.closeDrawer(drawerListView);
+//
+//            }
+//            if (((TextView) view).getText().toString().equals("Freunde")) {
+//                // System.out.println(" piraten history sollt jz angezeigt werden miau miau");
+//                //Intent myIntent = new Intent(view.getContext(), HistoryActivity.class);
+//                //EditText editText = (EditText) findViewById(R.id.outputText);
+//                //String message = editText.getText().toString();
+//                //myIntent.putExtra(EXTRA_MESSAGE, message);
+//                //startActivity(myIntent);
+//                // drawer schliessen noch rein
+//                Intent intent = new Intent();
+//                intent.setClassName(getPackageName(), getPackageName() + ".FriendActivity");
+//                intent.putExtra("index", "testtesttest");
+//                startActivity(intent);
+//
+//                drawerLayout.closeDrawer(drawerListView);
+//
+//            }
+//
+//            Toast.makeText(MainActivity.this, ((TextView) view).getText(), Toast.LENGTH_LONG).show();
+//
+//        }
+//    }
 
+   // Listener für die Navigation Drawer Einträge - für eigenen Adapter
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-            if (((TextView) view).getText().toString().equals("FriendShifts")) {
-                // System.out.println("drawer soll geschlossen werden");
-                drawerLayout.closeDrawer(drawerListView);
-            }
-
-            if (((TextView) view).getText().toString().equals("Meine Shifts")) {
-                // System.out.println(" piraten history sollt jz angezeigt werden miau miau");
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position == 0) {
+                //Aktion
+            } else if (position == 1) {
                 Intent myIntent = new Intent(view.getContext(), MyEntrys.class);
                 startActivity(myIntent);
-                // drawer schliessen noch rein
                 drawerLayout.closeDrawer(drawerListView);
-
-            }
-            if (((TextView) view).getText().toString().equals("Freunde")) {
-                // System.out.println(" piraten history sollt jz angezeigt werden miau miau");
-                //Intent myIntent = new Intent(view.getContext(), HistoryActivity.class);
-                //EditText editText = (EditText) findViewById(R.id.outputText);
-                //String message = editText.getText().toString();
-                //myIntent.putExtra(EXTRA_MESSAGE, message);
-                //startActivity(myIntent);
-                // drawer schliessen noch rein
+            } else if (position == 2) {
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName() + ".FriendActivity");
+                intent.setClassName(getPackageName(), getPackageName()+".FriendActivity");
                 intent.putExtra("index", "testtesttest");
                 startActivity(intent);
-
                 drawerLayout.closeDrawer(drawerListView);
-
+            }else if (position == 3) {
+                // Aktion
+            }else if (position == 4) {
+                // Aktion
             }
 
-            Toast.makeText(MainActivity.this, ((TextView) view).getText(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
 
+            drawerListView.setItemChecked(position, true);
+            drawerLayout.closeDrawer(drawerListView);
         }
     }
 }

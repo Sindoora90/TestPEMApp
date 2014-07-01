@@ -18,22 +18,22 @@
         android:layout_alignParentStart="true"
         android:layout_margin="0dp">
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="148dp"
-        android:background="#91edb8"
-        android:layout_margin="0dp">
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="148dp"
+            android:background="#91edb8"
+            android:layout_margin="0dp">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="72dp"
-            android:id="@+id/logo"
-            android:src="@drawable/logologin"
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="72dp"
+                android:id="@+id/logo"
+                android:src="@drawable/logologin"
 
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -51,21 +51,22 @@
                 android:textSize="12pt"
                 android:textColor="#91edb8"
                 android:id="@+id/logintextView"
-                android:layout_marginTop="20dp"
-                android:layout_weight="0.16" />
+                android:layout_marginTop="15px"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="10px"
+                >
 
-        <!--        <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Name*:"
-                    android:id="@+id/textView" /> -->
+                <!--        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Name*:"
+                            android:id="@+id/textView" /> -->
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -84,12 +85,12 @@
                 android:layout_height="wrap_content"
                 >
 
-         <!--       <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="E-mail*"
-                    android:id="@+id/textView3" /> -->
+                <!--       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textAppearance="?android:attr/textAppearanceMedium"
+                           android:text="E-mail*"
+                           android:id="@+id/textView3" /> -->
 
                 <EditText
                     android:layout_width="match_parent"
@@ -107,12 +108,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-       <!--         <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Passwort*"
-                    android:id="@+id/textView2" />    -->
+                <!--         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:textAppearance="?android:attr/textAppearanceMedium"
+                             android:text="Passwort*"
+                             android:id="@+id/textView2" />    -->
 
                 <EditText
                     android:layout_width="match_parent"
@@ -130,12 +131,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-         <!--       <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Phone"
-                    android:id="@+id/textView4" /> -->
+                <!--       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textAppearance="?android:attr/textAppearanceMedium"
+                           android:text="Phone"
+                           android:id="@+id/textView4" /> -->
 
                 <EditText
                     android:layout_width="match_parent"
@@ -143,7 +144,7 @@
                     android:inputType="phone"
                     android:ems="10"
                     android:background="@drawable/textfield_bottomline"
-                    android:hint="    Phone (optional)"
+                    android:hint="    Phone"
                     android:id="@+id/editText4" />
             </LinearLayout>
 
@@ -151,13 +152,13 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-<!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Adresse"
-                    android:id="@+id/textView5" /> -->
+                <!--
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:text="Adresse"
+                                    android:id="@+id/textView5" /> -->
 
                 <EditText
                     android:layout_width="match_parent"
@@ -165,20 +166,32 @@
                     android:inputType="textPostalAddress"
                     android:ems="10"
                     android:background="@drawable/textfield_bottomline"
-                    android:hint="    Adresse (optional)"
+                    android:hint="    Stadt"
                     android:id="@+id/editText5" />
             </LinearLayout>
 
             <ImageButton
-                android:layout_width="281dp"
-                android:layout_height="wrap_content"
+                android:layout_width="261dp"
+                android:layout_height="48dp"
                 android:src="@drawable/registrieren_button"
                 android:scaleType="centerCrop"
                 android:background="@android:color/white"
                 android:id="@+id/button"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25px" />
+
+            <ImageButton
+                android:layout_width="261dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/login_button"
+                android:scaleType="centerCrop"
+                android:background="@android:color/white"
+                android:id="@+id/button2"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="0.30"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20px" />
+
+
 
         </LinearLayout>
 

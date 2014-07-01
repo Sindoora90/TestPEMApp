@@ -88,6 +88,18 @@ public class DetailsActivity extends Activity {
 
         loadDetails();
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetailsActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent();
+                intent.setClassName(getPackageName(), getPackageName()+".ImageFullscreenActivity");
+                intent.putExtra("index", "testtesttest");
+                intent.putExtra("objectIdTest", objectId);
+                startActivity(intent);
+            }
+        });
 
     }
 
