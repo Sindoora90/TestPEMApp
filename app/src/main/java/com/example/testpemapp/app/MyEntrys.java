@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +33,8 @@ public class MyEntrys extends Activity {
 
     Bitmap pic;
     private      ListView lv;
-    ListAdapter adapter;
+//    ListAdapter adapter;
+    MySimpleArrayAdapter adapter;
 
     Entry[] entrys;
     String[] titleArray;
@@ -51,6 +52,13 @@ public class MyEntrys extends Activity {
 
         lv = (ListView)findViewById(R.id.listView);
 
+        loadEntrys();
+
+    }
+
+    private void loadEntrys() {
+
+
 
         //ParseQuery die nur meine Entrys zurueckgeben:
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
@@ -58,7 +66,7 @@ public class MyEntrys extends Activity {
         query.orderByDescending("createdAt");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> scoreList, ParseException e) {
+            public void done(final List<ParseObject> scoreList, ParseException e) {
                 if (e == null && scoreList.size()>0) {
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                     entrys = new Entry[scoreList.size()];
@@ -99,9 +107,82 @@ public class MyEntrys extends Activity {
                             e1.printStackTrace();
                         }
                     }
-                    MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), titleArray, entrys);
+
+                    ArrayList a = new ArrayList<String> (titleArray.length);
+                    for (String s : titleArray) {
+                        a.add(s);
+                    }
+                    ArrayList b = new ArrayList<Entry>(entrys.length);
+                    for (Entry s : entrys) {
+                        b.add(s);
+                    }
+                    adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
                     lv.setAdapter(adapter);
                     Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+
+                    // Create a ListView-specific touch listener. ListViews are given special treatment because
+                    // by default they handle touches for their list items... i.e. they're in charge of drawing
+                    // the pressed state (the list selector), handling list item clicks, etc.
+                    SwipeDismissListViewTouchListener touchListener =
+                            new SwipeDismissListViewTouchListener(
+                                    lv,
+                                    new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                                        @Override
+                                        public boolean canDismiss(int position) {
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                            for (int position : reverseSortedPositions) {
+
+                                                // TODO: aus parse löschen:
+
+                                                scoreList.get(position).deleteInBackground();
+
+                                                adapter.remove(adapter.getItem(position));
+                                            }
+                                            //loadEntrys();
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    });
+                    lv.setOnTouchListener(touchListener);
+                    // Setting this scroll listener is required to ensure that during ListView scrolling,
+                    // we don't look for swipes.
+                    lv.setOnScrollListener(touchListener.makeScrollListener());
+
+//                    // Set up normal ViewGroup example
+//                    final ViewGroup dismissableContainer = (ViewGroup) findViewById(R.id.dismissable_container);
+//                    for (int i = 0; i < items.length; i++) {
+//                        final Button dismissableButton = new Button(this);
+//                        dismissableButton.setLayoutParams(new ViewGroup.LayoutParams(
+//                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                        dismissableButton.setText("Button " + (i + 1));
+//                        dismissableButton.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(MyEntrys.this,
+//                                        "Clicked " + ((Button) view).getText(),
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                        // Create a generic swipe-to-dismiss touch listener.
+//                        dismissableButton.setOnTouchListener(new SwipeDismissTouchListener(
+//                                dismissableButton,
+//                                null,
+//                                new SwipeDismissTouchListener.DismissCallbacks() {
+//                                    @Override
+//                                    public boolean canDismiss(Object token) {
+//                                        return true;
+//                                    }
+//
+//                                    @Override
+//                                    public void onDismiss(View view, Object token) {
+//                                        dismissableContainer.removeView(dismissableButton);
+//                                    }
+//                                }));
+//                        dismissableContainer.addView(dismissableButton);
+//                    }
 
 
 
@@ -143,13 +224,6 @@ public class MyEntrys extends Activity {
 
             }
         });
-
-
-
-
-
-
-
 
     }
 

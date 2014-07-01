@@ -94,7 +94,7 @@ public class ParseConnection {
        // Bild muss extra gespeichert werden:
 
        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-       pic.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+       pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
        byte[] bytearray = stream.toByteArray();
        ParseFile file = new ParseFile("nameDesBildes.png", bytearray);
        file.saveInBackground();

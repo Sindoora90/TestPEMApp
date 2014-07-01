@@ -8,12 +8,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MySimpleArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
-    private final String[] values;
-    private final Entry[] val;
+    //private final String[] values;
+    //private final Entry[] val;
+    private final ArrayList<String> values;
+    private final ArrayList<Entry> val;
 
-    public MySimpleArrayAdapter(Context context, String[] values, Entry[] val) {
+
+    public MySimpleArrayAdapter(Context context, ArrayList<String> values, ArrayList<Entry> val) {
         super(context, R.layout.simplerow, values);
         this.context = context;
         this.values = values;
@@ -30,20 +35,20 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         TextView preis = (TextView) rowView.findViewById(R.id.textView);
         ImageView geschenk = (ImageView) rowView.findViewById(R.id.geschenkview);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        textView.setText(values[position]);
+        textView.setText(values.get(position));
        // textView2.setText("eingestellt von:   " + val[position].getName().getUsername() +  " (position: " +  position + ")");
         // Change the icon for Windows and iPhone
-        textView2.setText("von: " + val[position].getName().getUsername());
-        if(val[position].isGeschenk()){
+        textView2.setText("von: " + val.get(position).getName().getUsername());
+        if(val.get(position).isGeschenk()){
             preis.setVisibility(View.GONE);
         }else{
             geschenk.setVisibility(View.GONE);
-            preis.setText(Double.toString(val[position].getPrice()) + " €");
+            preis.setText(Double.toString(val.get(position).getPrice()) + " €");
         }
-        String s = values[position];
+        String s = values.get(position);
         //if (s.startsWith("Windows7") || s.startsWith("iPhone")
           //      || s.startsWith("Solaris")) {
-            imageView.setImageBitmap(val[position].getPicture());
+            imageView.setImageBitmap(val.get(position).getPicture());
         //} else {
           //  imageView.setImageResource(R.drawable.fri);
         //}

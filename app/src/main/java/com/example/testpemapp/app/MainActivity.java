@@ -28,6 +28,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -272,7 +273,15 @@ public class MainActivity extends Activity {
                                             }
                                         }
 
-                                        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), titleArray, entrys);
+                                        ArrayList a = new ArrayList<String> (titleArray.length);
+                                        for (String s : titleArray) {
+                                            a.add(s);
+                                        }
+                                        ArrayList b = new ArrayList<Entry>(entrys.length);
+                                        for (Entry s : entrys) {
+                                            b.add(s);
+                                        }
+                                        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
                                         lv.setAdapter(adapter);
                                         Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
