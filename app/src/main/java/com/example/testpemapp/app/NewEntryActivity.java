@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -42,6 +44,7 @@ public class NewEntryActivity extends Activity {
      final static String DEBUG_TAG = "NewEntryActivity";
     private Camera camera;
     private int cameraId = 0;
+    private SurfaceHolder holder;
 
 
     private Entry entry;
@@ -243,6 +246,12 @@ public class NewEntryActivity extends Activity {
 
     // fuer die Cam:
     public void onCamClick() {
+        try {
+            camera.setPreviewDisplay(holder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        camera.startPreview();
         camera.takePicture(null, null,
                 new PhotoHandler(getApplicationContext()));
     }

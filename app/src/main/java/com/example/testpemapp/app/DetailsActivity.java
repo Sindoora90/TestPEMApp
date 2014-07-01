@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
+
 public class DetailsActivity extends Activity {
 
 
@@ -51,6 +52,8 @@ public class DetailsActivity extends Activity {
     ImageButton telButton;
     ImageButton mailButton;
     ImageButton mapsButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +235,9 @@ public class DetailsActivity extends Activity {
 
     public void findLoc(View view){
         Toast.makeText(DetailsActivity.this, "findLoc aufgerufen: ", Toast.LENGTH_SHORT).show();
+
+       // mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+       //        .getMap();
 
     }
 

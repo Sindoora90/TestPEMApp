@@ -235,6 +235,13 @@
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/maps"
                 android:onClick="findLoc" />
+<!--
+            <fragment
+                android:layout_width ="wrap_content"
+                android:layout_height ="wrap_content"
+                android:name ="com.google.android.gms.maps.MapFragment"
+                android:id ="@+id/map" />
+  -->
         </LinearLayout>
 
 
