@@ -105,10 +105,10 @@ public class SignUpActivity extends Activity {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                     Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+                    //Intent intent = new Intent();
+                    //intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
                     //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-                    startActivity(intent);
+                    //startActivity(intent);
                     finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong
