@@ -2,6 +2,7 @@ package com.example.testpemapp.app;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,6 +60,20 @@ public class SignUpActivity extends Activity {
             }
         });
 
+        ImageButton b2 = (ImageButton) findViewById(R.id.button2);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 Toast.makeText(SignUpActivity.this, "button login clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClassName(getPackageName(), getPackageName() + ".LoginActivity");
+                //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                startActivity(intent);
+
+
+            }
+        });
+
     }
 
     // in dieser methode soll adressbuch durchsucht werden, mit handynummern verglichen und passende user ausgegeben werden
@@ -90,6 +105,10 @@ public class SignUpActivity extends Activity {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                     Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+                    //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                    startActivity(intent);
                     finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong
