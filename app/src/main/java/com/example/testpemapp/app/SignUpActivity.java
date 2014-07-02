@@ -40,39 +40,72 @@ public class SignUpActivity extends Activity {
 //        ParseInstallation.getCurrentInstallation().saveInBackground();
 //
 
-        description = (TextView) findViewById(R.id.logintextView);
 
-        // other font_family:
-        //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/segoe-ui-1361529660.ttf");
-        //description.setTypeface(tf);
-
-        ImageButton b = (ImageButton) findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
-
-                // an parse den neuen nutzer schicken...
-
-                registerNewUser();
-                getFriends();
-                //finish();
-            }
-        });
-
-        ImageButton b2 = (ImageButton) findViewById(R.id.button2);
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 Toast.makeText(SignUpActivity.this, "button login clicked", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName() + ".LoginActivity");
-                //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-                startActivity(intent);
+        // beim allerersten Start soll die login activity angezeigt werden, nach der registrierung nicht mehr
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        System.out.println("parse user: " + ParseUser.getCurrentUser());
+        if (currentUser != null) {
+            // do stuff with the user
+            Toast.makeText(SignUpActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
 
 
-            }
-        });
+            // NavDrawer:
+
+            // createNavDrawer();
+
+            // show the signup or login screen
+
+            Intent intent = new Intent();
+            intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+            //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+            startActivity(intent);
+            Toast.makeText(SignUpActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
+
+
+
+        } else {
+
+
+            //TODO nach dem registrieren -> leere Main mit nachricht freunde hinzufügen..
+
+
+            description = (TextView) findViewById(R.id.logintextView);
+
+            // other font_family:
+            //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/segoe-ui-1361529660.ttf");
+            //description.setTypeface(tf);
+
+            ImageButton b = (ImageButton) findViewById(R.id.button);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+
+                    // an parse den neuen nutzer schicken...
+
+                    registerNewUser();
+                    getFriends();
+                    //finish();
+                }
+            });
+
+            ImageButton b2 = (ImageButton) findViewById(R.id.button2);
+            b2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(SignUpActivity.this, "button login clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClassName(getPackageName(), getPackageName() + ".LoginActivity");
+                    //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                    startActivity(intent);
+
+
+                }
+            });
+
+        }
+
+
 
     }
 
@@ -105,10 +138,11 @@ public class SignUpActivity extends Activity {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                     Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
-                    //Intent intent = new Intent();
-                    //intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+                    Intent intent = new Intent();
+                    intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
                     //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-                    //startActivity(intent);
+                    startActivity(intent);
+
                     finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong

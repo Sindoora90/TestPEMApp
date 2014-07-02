@@ -17,7 +17,7 @@ public class App extends Application {
     @Override public void onCreate() {
         super.onCreate();
         Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
+        PushService.setDefaultPushCallback(this, SignUpActivity.class);
         //TODO testing push channels here
         //PushService.subscribe(this, "TestChannel", MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();

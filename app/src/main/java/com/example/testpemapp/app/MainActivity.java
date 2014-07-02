@@ -68,34 +68,34 @@ public class MainActivity extends Activity {
         lv = (ListView) findViewById(R.id.listView);
         createNavDrawer();
 
-        // beim allerersten Start soll die login activity angezeigt werden, nach der registrierung nicht mehr
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        System.out.println("parse user: " + ParseUser.getCurrentUser());
-        if (currentUser != null) {
-            // do stuff with the user
-            Toast.makeText(MainActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
-
-
-            // NavDrawer:
-
-            // createNavDrawer();
-
-
+//        // beim allerersten Start soll die login activity angezeigt werden, nach der registrierung nicht mehr
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+//        System.out.println("parse user: " + ParseUser.getCurrentUser());
+//        if (currentUser != null) {
+//            // do stuff with the user
+//            Toast.makeText(MainActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
+//
+//
+//            // NavDrawer:
+//
+//            // createNavDrawer();
+//
+//
             loadEntrys();
-
-
-        } else {
-            // show the signup or login screen
-
-            Intent intent = new Intent();
-            intent.setClassName(getPackageName(), getPackageName() + ".SignUpActivity");
-            //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-            startActivity(intent);
-            Toast.makeText(MainActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
-
-            //TODO nach dem registrieren -> leere Main mit nachricht freunde hinzufügen..
-
-        }
+//
+//
+//        } else {
+//            // show the signup or login screen
+//
+//            Intent intent = new Intent();
+//            intent.setClassName(getPackageName(), getPackageName() + ".SignUpActivity");
+//            //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+//            startActivity(intent);
+//            Toast.makeText(MainActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
+//
+//            //TODO nach dem registrieren -> leere Main mit nachricht freunde hinzufügen..
+//
+//        }
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
