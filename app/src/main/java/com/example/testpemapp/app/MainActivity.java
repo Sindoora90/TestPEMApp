@@ -195,6 +195,12 @@ public class MainActivity extends Activity {
     }
 
 
+//    protected void onResume(){
+//        loadEntrys();
+//
+//    }
+
+
     private void loadEntrys() {
 
         //connection.getAllEntrys();

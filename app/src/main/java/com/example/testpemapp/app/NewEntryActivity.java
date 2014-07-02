@@ -66,7 +66,7 @@ public class NewEntryActivity extends Activity {
     TextView priceTextView;
     //ImageView imageView;
 
-
+    boolean cameraSelected;
 
     private static final int REQUEST_CODE = 1;
     private Bitmap bitmap;
@@ -386,22 +386,30 @@ public class NewEntryActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InputStream stream = null;
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
-            try {
-                // recyle unused bitmaps
-                if (bitmap != null) {
-                    bitmap.recycle();
+
+        if(cameraSelected) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Bitmap bp = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bp);
+            pic = bp;
+        }
+        else {
+            InputStream stream = null;
+            if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+                try {
+                    // recyle unused bitmaps
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                    }
+                    stream = getContentResolver().openInputStream(data.getData());
+                    bitmap = BitmapFactory.decodeStream(stream);
+
+                    imageView.setImageBitmap(bitmap);
+                    pic = bitmap;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                stream = getContentResolver().openInputStream(data.getData());
-                bitmap = BitmapFactory.decodeStream(stream);
-
-                imageView.setImageBitmap(bitmap);
-                pic = bitmap;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-
-            }
+        }
     }
 
 
@@ -462,11 +470,14 @@ public class NewEntryActivity extends Activity {
 
         switch(item.getItemId()){
             case R.id.menu_item_camera:
-                onClick();
+                //onClick();
+                cameraSelected = true;
+                open();
             //    Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_item_galerie:
+                cameraSelected = false;
                 onImageButtonClick();
             //    Toast.makeText(this, "Share : "  , Toast.LENGTH_SHORT).show();
                 break;
@@ -474,4 +485,17 @@ public class NewEntryActivity extends Activity {
         }
         return true;
     }
+
+    public void open(){
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 0);
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // TODO Auto-generated method stub
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Bitmap bp = (Bitmap) data.getExtras().get("data");
+//        imgFavorite.setImageBitmap(bp);
+//    }
 }
