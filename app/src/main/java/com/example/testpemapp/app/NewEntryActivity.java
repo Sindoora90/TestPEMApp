@@ -247,7 +247,7 @@ public class NewEntryActivity extends Activity {
     // fuer die Cam:
     public void onCamClick() {
         try {
-            camera.setPreviewDisplay(holder);
+            camera.setPreviewDisplay(null);
         } catch (IOException e) {
             e.printStackTrace();
         }
