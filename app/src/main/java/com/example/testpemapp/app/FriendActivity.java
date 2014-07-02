@@ -18,6 +18,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -246,7 +247,20 @@ public class FriendActivity extends Activity {
                         follow.put("fromUser", ParseUser.getCurrentUser());
                         follow.put("toUser", objects.get(0));
                         //follow.put("date", Date());
-                        follow.saveInBackground();
+                        //follow.saveInBackground();
+                        follow.saveInBackground(new SaveCallback() {
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                   // myObjectSavedSuccessfully();
+                                    createFriendListView();
+                                } else {
+                                   // myObjectSaveDidNotSucceed();
+                                    System.out.println("es wurde nicht gespeichert");
+                                }
+                            }
+                        });
+
+
 
                         ParseObject followed = new ParseObject("Friendship");
                         followed.put("fromUser", objects.get(0));
@@ -255,7 +269,7 @@ public class FriendActivity extends Activity {
                         followed.saveInBackground();
 
                         //TODO: PushNotification an den Freund
-                        createFriendListView();
+
                         Toast.makeText(FriendActivity.this, "you and "+emailAdresse+" are now friends", Toast.LENGTH_SHORT).show();
 
                     } else {
