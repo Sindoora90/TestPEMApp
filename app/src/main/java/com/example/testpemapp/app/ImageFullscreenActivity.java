@@ -56,9 +56,6 @@ public class ImageFullscreenActivity extends Activity {
                                      ParseException e) {
                         if (e == null) {
                             bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                            Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bmp, 50, 50);
-                            bmp = ThumbImage;
                             pic.setImageBitmap(bmp);
                         } else {
                             Log.d("test", "There was a problem downloading the data.");

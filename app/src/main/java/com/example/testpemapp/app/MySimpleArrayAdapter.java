@@ -1,6 +1,8 @@
 package com.example.testpemapp.app;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,9 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         String s = values.get(position);
         //if (s.startsWith("Windows7") || s.startsWith("iPhone")
           //      || s.startsWith("Solaris")) {
-            imageView.setImageBitmap(val.get(position).getPicture());
+        Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(val.get(position).getPicture(), 250, 250);
+        imageView.setImageBitmap(ThumbImage);
+
         //} else {
           //  imageView.setImageResource(R.drawable.fri);
         //}
