@@ -1,20 +1,43 @@
 package com.example.testpemapp.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -23,6 +46,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.List;
+import java.util.Locale;
 
 
 public class DetailsActivity extends Activity {
@@ -47,11 +72,24 @@ public class DetailsActivity extends Activity {
 
     String selected;
 
+    MapFragment mMapFragment;
+    private GoogleMap mMap;
+    // Create a LatLngBounds that includes Australia.
+    private LatLngBounds AUSTRALIA = new LatLngBounds(
+            new LatLng(-44, 113), new LatLng(-10, 154));
+    static final LatLng TutorialsPoint = new LatLng(21 , 57);
+    private static final LatLng MUNICH = new LatLng(48.1, 11.6);
+    private static final LatLng SEOUL = new LatLng(37.566535000000000000, 126.977969199999960000);
+    RelativeLayout mapLayout;
+    private static LatLng test;
+    private String adress;
+
     boolean mine;
 
     ImageButton telButton;
     ImageButton mailButton;
     ImageButton mapsButton;
+    private Location myLocation;
 
 
 
@@ -60,6 +98,11 @@ public class DetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        mMapFragment = (MapFragment) getFragmentManager().
+                findFragmentById(R.id.map);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.hide(mMapFragment);
+        ft.commit();
 
 //        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
 //        PushService.setDefaultPushCallback(this, MainActivity.class);
@@ -104,6 +147,19 @@ public class DetailsActivity extends Activity {
             }
         });
 
+        mapsButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
+
+                setUpMapIfNeeded();
+                Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
     }
 
     private void loadDetails() {
@@ -120,6 +176,9 @@ public class DetailsActivity extends Activity {
                 title = parseObject.getString("title");
                 description = parseObject.getString("description");
                 name = ((ParseUser) parseObject.get("user")).getUsername();
+                adress = ((ParseUser) parseObject.get("user")).getString("adr");
+                System.out.println(adress);
+
                 price = parseObject.getDouble("price");
 
                 picFile = (ParseFile) parseObject.getParseFile("picFile");
@@ -129,6 +188,9 @@ public class DetailsActivity extends Activity {
                                      ParseException e) {
                         if (e == null) {
                             Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            // zwei zeilen drunter neu
+                            Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bmp, 700, 300);
+                            bmp = ThumbImage;
                             imageView.setImageBitmap(bmp);
                         } else {
                             Log.d("test", "There was a problem downloading the data.");
@@ -241,5 +303,98 @@ public class DetailsActivity extends Activity {
 
     }
 
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void setUpMapIfNeeded() {
+        Context context = getApplicationContext();
+
+        try {
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            List<Address> geoResults = geocoder.getFromLocationName(adress, 1);
+
+            while (geoResults.size()==0) {
+                System.out.println(adress +"failed");
+                Toast.makeText(DetailsActivity.this, "Adress "+ adress + " could not be found", Toast.LENGTH_LONG).show();
+                adress = "München"; //München ist default falls eigegebene Adresse unlesbar ist
+                geoResults = geocoder.getFromLocationName(adress, 1);
+
+            }
+
+            if (geoResults.size()>0) {
+                Address addr = geoResults.get(0);
+                test = new LatLng (addr.getLatitude(),addr.getLongitude());
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
+
+        try {
+
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.show(mMapFragment);
+            ft.commit();
+
+            //Close Button in front of map
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT);
+            params.weight = 1.0f;
+            params.gravity= Gravity.RIGHT;
+
+            params.setMargins(10, 20, 30, 40);
+
+            //close.setLayoutParams(params);
+
+            final Button close = new Button(this);
+            //close.setText("Close");
+            Drawable d= getResources().getDrawable(R.drawable.deletenew2);
+            close.setBackground(d);
+            close.setGravity(Gravity.RIGHT);
+            close.setLayoutParams(params);
+            addContentView(close, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+            close.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    close.setVisibility(View.GONE);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.hide(mMapFragment);
+                    ft.commit();
+
+                }
+            });
+
+            if(mMap==null){
+
+                mMap = ((MapFragment) getFragmentManager().
+                        findFragmentById(R.id.map)).getMap();
+
+                if(mMap!=null){
+
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    Marker marker = mMap.addMarker(new MarkerOptions().
+                            position(test).title(adress));
+                    mMap.addCircle(new CircleOptions().center(test).fillColor(Color.argb(80, 145, 237, 184)).radius(7000).strokeWidth(1));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
+
+                    // Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(test)      // Sets the center of the map to Mountain View
+                            .zoom(10)                   // Sets the zoom
+                            .bearing(0)                // Sets the orientation of the camera to east
+                            .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                            .build();                   // Creates a CameraPosition from the builder
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
