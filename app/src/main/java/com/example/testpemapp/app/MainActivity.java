@@ -19,14 +19,11 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,13 +55,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // fuer lokalen speicher
-        Parse.enableLocalDatastore(this.getApplicationContext());
-
-        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+//sdlhfljar
+//        // fuer lokalen speicher
+//        Parse.enableLocalDatastore(this.getApplicationContext());
+//
+//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
+//        PushService.setDefaultPushCallback(this, MainActivity.class);
+//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         connection = new ParseConnection();
 
@@ -73,6 +70,7 @@ public class MainActivity extends Activity {
 
         // beim allerersten Start soll die login activity angezeigt werden, nach der registrierung nicht mehr
         ParseUser currentUser = ParseUser.getCurrentUser();
+        System.out.println("parse user: " + ParseUser.getCurrentUser());
         if (currentUser != null) {
             // do stuff with the user
             Toast.makeText(MainActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
@@ -287,7 +285,7 @@ public class MainActivity extends Activity {
 
 
                                     } else {
-                                        Log.d("fehler in query not parse", "hat wieder nicht geklappt :(");
+                                        Log.d("fehler in query not parse", "leere Liste d.h. keine einträge von freunden/sich selbst");
                                     }
                                 } else {
                                     Log.d("fehler", "hat nicht geklappt");
@@ -402,7 +400,8 @@ public class MainActivity extends Activity {
 
         //TODO später einkommentieren
         //drawer list icons
-        drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_discard, R.drawable.ic_action_settings};
+        //drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_discard, R.drawable.ic_action_settings};
+        drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_settings};
 
         // get ListView defined in activity_main.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
@@ -497,9 +496,10 @@ public class MainActivity extends Activity {
                 drawerLayout.closeDrawer(drawerListView);
             }else if (position == 3) {
                 // Aktion
-            }else if (position == 4) {
-                // Aktion
             }
+            //else if (position == 4) {
+                // Aktion
+            //}
 
             Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
 

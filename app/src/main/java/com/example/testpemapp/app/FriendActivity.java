@@ -9,11 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -31,7 +31,7 @@ public class FriendActivity extends Activity {
     Person[] persons;
 
     private ListView lv;
-    ListAdapter adapter;
+    ArrayAdapter adapter;
 
     EditText email;
     ImageButton search;
@@ -104,25 +104,123 @@ public class FriendActivity extends Activity {
     private void createFriendListView() {
 
         // set up the query on the Follow table
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friendship");
+        final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friendship");
+        query2.include("user");
         query2.whereEqualTo("fromUser", ParseUser.getCurrentUser());
         query2.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> followList, ParseException e) {
+            public void done(final List<ParseObject> followList, ParseException e) {
 
-                if(e==null && followList.size()>0) {
+                if (e == null) {
+                    if (followList.size() > 0) {
 
-                    List friendList = new ArrayList<String>();
+                        ArrayList friendList = new ArrayList<String>();
 
-                    for (int i = 0; i < followList.size(); i++) {
-                        friendList.add(((ParseUser) followList.get(i).get("toUser")).getUsername());
-                        System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).getUsername());
+                        // TODO hier gibts noch no data for this key exception
+                        for (int i = 0; i < followList.size(); i++) {
+                            try {
+                                System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).fetchIfNeeded().getUsername());
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                                System.out.println("miauuuuu");
+                            }
+
+                            friendList.add(((ParseUser) followList.get(i).get("toUser")).getUsername());
+                            //   System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).getUsername());
+                        }
+                        adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, friendList);
+                        lv.setAdapter(adapter);
+
+                        // Create a ListView-specific touch listener. ListViews are given special treatment because
+                        // by default they handle touches for their list items... i.e. they're in charge of drawing
+                        // the pressed state (the list selector), handling list item clicks, etc.
+                        SwipeDismissListViewTouchListener touchListener =
+                                new SwipeDismissListViewTouchListener(
+                                        lv,
+                                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                                            @Override
+                                            public boolean canDismiss(int position) {
+                                                return true;
+                                            }
+
+                                            @Override
+                                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                                for (int position : reverseSortedPositions) {
+
+                                                    // TODO: aus parse löschen:
+
+                                                    ParseQuery<ParseObject> query23 = ParseQuery.getQuery("Friendship");
+                                                    query23.whereEqualTo("toUser", ParseUser.getCurrentUser());
+                                                    System.out.println(followList.get(position).get("toUser"));
+                                                    query23.whereEqualTo("fromUser", (ParseUser) followList.get(position).get("toUser"));
+                                                    query23.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                        @Override
+                                                        public void done(ParseObject parseObject, ParseException e) {
+                                                            if (e != null && parseObject != null) {
+                                                                //parseObject.deleteInBackground();
+                                                                System.out.println("object gefunden: " + parseObject.getString("fromUser"));
+                                                                System.out.println("freund wurde gelsöcht");
+                                                            } else {
+                                                                System.out.println("hat nich geklappt mit freund lsöchen");
+                                                            }
+                                                        }
+                                                    });
+
+
+                                                    followList.get(position).deleteInBackground();
+                                                    // es wird nur freundschaft von mir zu ihr gelöscht...
+
+                                                    adapter.remove(adapter.getItem(position));
+                                                }
+                                                //loadEntrys();
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                );
+                        lv.setOnTouchListener(touchListener);
+                        // Setting this scroll listener is required to ensure that during ListView scrolling,
+                        // we don't look for swipes.
+                        lv.setOnScrollListener(touchListener.makeScrollListener());
+
+//                    // Set up normal ViewGroup example
+//                    final ViewGroup dismissableContainer = (ViewGroup) findViewById(R.id.dismissable_container);
+//                    for (int i = 0; i < items.length; i++) {
+//                        final Button dismissableButton = new Button(this);
+//                        dismissableButton.setLayoutParams(new ViewGroup.LayoutParams(
+//                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                        dismissableButton.setText("Button " + (i + 1));
+//                        dismissableButton.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Toast.makeText(MyEntrys.this,
+//                                        "Clicked " + ((Button) view).getText(),
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                        // Create a generic swipe-to-dismiss touch listener.
+//                        dismissableButton.setOnTouchListener(new SwipeDismissTouchListener(
+//                                dismissableButton,
+//                                null,
+//                                new SwipeDismissTouchListener.DismissCallbacks() {
+//                                    @Override
+//                                    public boolean canDismiss(Object token) {
+//                                        return true;
+//                                    }
+//
+//                                    @Override
+//                                    public void onDismiss(View view, Object token) {
+//                                        dismissableContainer.removeView(dismissableButton);
+//                                    }
+//                                }));
+//                        dismissableContainer.addView(dismissableButton);
+//                    }
+
+
+                        Toast.makeText(FriendActivity.this, "adapter erzeugt", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
                     }
-                    adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, friendList);
-                    lv.setAdapter(adapter);
-                    Toast.makeText(FriendActivity.this, "adapter erzeugt", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FriendActivity.this, "kein internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
