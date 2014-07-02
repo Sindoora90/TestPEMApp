@@ -280,8 +280,8 @@ public class DetailsActivity extends Activity {
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         //emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "FriendShift");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi ich hätte Interesse an dein Angebot: " + title);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "FriendShift Angebot: " + title);
+        //emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi ich hätte Interesse an dein Angebot: " + title);
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
