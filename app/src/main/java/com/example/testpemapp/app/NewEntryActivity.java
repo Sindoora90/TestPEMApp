@@ -5,14 +5,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -44,7 +50,6 @@ public class NewEntryActivity extends Activity {
      final static String DEBUG_TAG = "NewEntryActivity";
     private Camera camera;
     private int cameraId = 0;
-    private SurfaceHolder holder;
 
 
     private Entry entry;
@@ -55,6 +60,72 @@ public class NewEntryActivity extends Activity {
     String description;
     Bitmap pic;
     ParseConnection connection;
+    SurfaceHolder surfaceHolder = new SurfaceHolder() {
+        @Override
+        public void addCallback(Callback callback) {
+
+        }
+
+        @Override
+        public void removeCallback(Callback callback) {
+
+        }
+
+        @Override
+        public boolean isCreating() {
+            return false;
+        }
+
+        @Override
+        public void setType(int type) {
+
+        }
+
+        @Override
+        public void setFixedSize(int width, int height) {
+
+        }
+
+        @Override
+        public void setSizeFromLayout() {
+
+        }
+
+        @Override
+        public void setFormat(int format) {
+
+        }
+
+        @Override
+        public void setKeepScreenOn(boolean screenOn) {
+
+        }
+
+        @Override
+        public Canvas lockCanvas() {
+            return null;
+        }
+
+        @Override
+        public Canvas lockCanvas(Rect dirty) {
+            return null;
+        }
+
+        @Override
+        public void unlockCanvasAndPost(Canvas canvas) {
+
+        }
+
+        @Override
+        public Rect getSurfaceFrame() {
+            return null;
+        }
+
+        @Override
+        public Surface getSurface() {
+            return null;
+        }
+    };
 
     boolean mine;
     String selected;
@@ -79,6 +150,9 @@ public class NewEntryActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
+
+
+
 
 //        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
 //        PushService.setDefaultPushCallback(this, MainActivity.class);
@@ -245,15 +319,17 @@ public class NewEntryActivity extends Activity {
     }
 
     // fuer die Cam:
-    public void onCamClick() {
+    public void onClick() {
+
         try {
-            camera.setPreviewDisplay(null);
+            camera.setPreviewDisplay(surfaceHolder);
         } catch (IOException e) {
             e.printStackTrace();
         }
         camera.startPreview();
         camera.takePicture(null, null,
                 new PhotoHandler(getApplicationContext()));
+        camera.stopPreview();
     }
 
     private int findFrontFacingCamera() {
@@ -466,7 +542,7 @@ public class NewEntryActivity extends Activity {
 
         switch(item.getItemId()){
             case R.id.menu_item_camera:
-                onCamClick();
+                onClick();
                 Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
                 break;
 
