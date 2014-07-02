@@ -79,7 +79,7 @@
         	android:value="@integer/google_play_services_version" />
         <meta-data
         	android:name="com.google.android.maps.v2.API_KEY"
-        	android:value="AIzaSyBqGu_pm_lSDLall5vcyzz7pFoVHxjEHZE"/>
+        	android:value="AIzaSyBEdLlSeRmzG-DdC_TPERlQempGNZt6s7E"/>
     </application>
 
     <uses-permission android:name="com.example.googlemaps.permission.MAPS_RECEIVE" />

@@ -60,72 +60,6 @@ public class NewEntryActivity extends Activity {
     String description;
     Bitmap pic;
     ParseConnection connection;
-    SurfaceHolder surfaceHolder = new SurfaceHolder() {
-        @Override
-        public void addCallback(Callback callback) {
-
-        }
-
-        @Override
-        public void removeCallback(Callback callback) {
-
-        }
-
-        @Override
-        public boolean isCreating() {
-            return false;
-        }
-
-        @Override
-        public void setType(int type) {
-
-        }
-
-        @Override
-        public void setFixedSize(int width, int height) {
-
-        }
-
-        @Override
-        public void setSizeFromLayout() {
-
-        }
-
-        @Override
-        public void setFormat(int format) {
-
-        }
-
-        @Override
-        public void setKeepScreenOn(boolean screenOn) {
-
-        }
-
-        @Override
-        public Canvas lockCanvas() {
-            return null;
-        }
-
-        @Override
-        public Canvas lockCanvas(Rect dirty) {
-            return null;
-        }
-
-        @Override
-        public void unlockCanvasAndPost(Canvas canvas) {
-
-        }
-
-        @Override
-        public Rect getSurfaceFrame() {
-            return null;
-        }
-
-        @Override
-        public Surface getSurface() {
-            return null;
-        }
-    };
 
     boolean mine;
     String selected;
@@ -321,15 +255,10 @@ public class NewEntryActivity extends Activity {
     // fuer die Cam:
     public void onClick() {
 
-        try {
-            camera.setPreviewDisplay(surfaceHolder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        camera.startPreview();
+
         camera.takePicture(null, null,
                 new PhotoHandler(getApplicationContext()));
-        camera.stopPreview();
+
     }
 
     private int findFrontFacingCamera() {
@@ -450,9 +379,8 @@ public class NewEntryActivity extends Activity {
         //System.out.println("ID newentry: " + newEntry.getObjectId());
         //System.out.println("ID gamescore: " + gameScore.getObjectId());
 
-
-
         this.finish();
+
         //funzt bis hier
     }
 
