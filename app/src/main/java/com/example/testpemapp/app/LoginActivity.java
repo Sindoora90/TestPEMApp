@@ -89,7 +89,7 @@ public class LoginActivity extends Activity {
                          public void done(ParseUser user, ParseException e) {
                              if (user != null) {
                                  // Hooray! The user is logged in.
-                                  Toast.makeText(LoginActivity.this, "login hat geklappt", Toast.LENGTH_SHORT).show();
+                               //   Toast.makeText(LoginActivity.this, "login hat geklappt", Toast.LENGTH_SHORT).show();
                                  Intent intent = new Intent();
                                  intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
                                  //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
@@ -97,7 +97,7 @@ public class LoginActivity extends Activity {
                                  finish();
                              } else {
                                  // Signup failed. Look at the ParseException to see what happened.
-                                 Toast.makeText(LoginActivity.this, "login fail", Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
 
                              }
                          }

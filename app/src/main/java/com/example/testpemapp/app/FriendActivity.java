@@ -74,7 +74,7 @@ public class FriendActivity extends Activity {
 //                intent.putExtra("objectIdTest", entrys[arg2].getId());
 //                startActivity(intent);
 
-                Toast.makeText(FriendActivity.this, "clicccckkkkkk", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(FriendActivity.this, "clicccckkkkkk", Toast.LENGTH_SHORT).show();
 
 
                 //public void onListItemClick(ListView l, View v, int position, long id) {
@@ -217,12 +217,12 @@ public class FriendActivity extends Activity {
 //                    }
 
 
-                        Toast.makeText(FriendActivity.this, "adapter erzeugt", Toast.LENGTH_SHORT).show();
+               //         Toast.makeText(FriendActivity.this, "adapter erzeugt", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
+                //        Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(FriendActivity.this, "kein internet", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(FriendActivity.this, "kein internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -241,7 +241,7 @@ public class FriendActivity extends Activity {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null && objects.size()>0) {
                         // The query was successful. -> freund hinzufügen..
-                        Toast.makeText(FriendActivity.this, "found user :))", Toast.LENGTH_SHORT).show();
+                   //     Toast.makeText(FriendActivity.this, "found user :))", Toast.LENGTH_SHORT).show();
 
                         ParseObject follow = new ParseObject("Friendship");
                         follow.put("fromUser", ParseUser.getCurrentUser());
@@ -274,13 +274,13 @@ public class FriendActivity extends Activity {
 
                     } else {
                         // Something went wrong.
-                        Toast.makeText(FriendActivity.this, "could not find user, email wrong?)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendActivity.this, "could not find user, email wrong?", Toast.LENGTH_SHORT).show();
 
                     }
                 }
             });
 
-            Toast.makeText(FriendActivity.this, "ok clicked, email: " + emailAdresse, Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(FriendActivity.this, "ok clicked, email: " + emailAdresse, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(FriendActivity.this, "Bitte Email Adresse eingeben", Toast.LENGTH_SHORT).show();
 

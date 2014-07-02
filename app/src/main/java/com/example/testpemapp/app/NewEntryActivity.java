@@ -103,7 +103,7 @@ public class NewEntryActivity extends Activity {
             selected = bundle.getString("selected");
             mine = bundle.getBoolean("mine");
 
-            Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -120,8 +120,8 @@ public class NewEntryActivity extends Activity {
                         Toast.LENGTH_LONG).show();
             } else {
                 camera = Camera.open(cameraId);
-                Toast.makeText(this, "CAM sollt funzen.",
-                        Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "CAM sollt funzen.",
+               //         Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -184,11 +184,11 @@ public class NewEntryActivity extends Activity {
             public void onClick(View v) {
                 // falls nur update gemacht werden soll...
                 if(mine){
-                 Toast.makeText(NewEntryActivity.this, "update ok", Toast.LENGTH_SHORT).show();
+               //  Toast.makeText(NewEntryActivity.this, "update ok", Toast.LENGTH_SHORT).show();
                     updateEntry(objectId);
                 }
                 else {
-                    Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
                     createNewEntry();
                 }
             }
@@ -198,7 +198,7 @@ public class NewEntryActivity extends Activity {
         abr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(NewEntryActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(NewEntryActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
                 finish();
              //  abbrechen();
             }
@@ -211,7 +211,7 @@ public class NewEntryActivity extends Activity {
         geschenkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(NewEntryActivity.this, "image1 clicked", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(NewEntryActivity.this, "image1 clicked", Toast.LENGTH_SHORT).show();
                 //geschenkButton.setImageResource(R.drawable.bri);
                // kaufButton.setImageResource(R.drawable.ic_launcher);
 
@@ -463,12 +463,12 @@ public class NewEntryActivity extends Activity {
         switch(item.getItemId()){
             case R.id.menu_item_camera:
                 onClick();
-                Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_item_galerie:
                 onImageButtonClick();
-                Toast.makeText(this, "Share : "  , Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(this, "Share : "  , Toast.LENGTH_SHORT).show();
                 break;
 
         }

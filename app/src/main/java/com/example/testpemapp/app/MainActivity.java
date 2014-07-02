@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -161,18 +160,18 @@ public class MainActivity extends Activity {
                 intent.putExtra("mine", false);
 
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
                 //System.out.println("test");
                 return true;
 
             case R.id.menu_load:
 
                 loadEntrys();
-                Toast.makeText(MainActivity.this, "load", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(MainActivity.this, "load", Toast.LENGTH_SHORT).show();
 
             case R.id.action_settings:
                 // settings item was selected
-                Toast.makeText(MainActivity.this, "settings clicked", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(MainActivity.this, "settings clicked", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -287,7 +286,7 @@ public class MainActivity extends Activity {
                                         }
                                         MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
                                         lv.setAdapter(adapter);
-                                        Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+                                    //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
 
                                     } else {
@@ -295,7 +294,7 @@ public class MainActivity extends Activity {
                                     }
                                 } else {
                                     Log.d("fehler", "hat nicht geklappt");
-                                    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+                                //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -507,7 +506,7 @@ public class MainActivity extends Activity {
                 // Aktion
             //}
 
-            Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
+        //    Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
 
             drawerListView.setItemChecked(position, true);
             drawerLayout.closeDrawer(drawerListView);

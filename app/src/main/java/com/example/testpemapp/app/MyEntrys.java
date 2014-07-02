@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -100,7 +99,7 @@ public class MyEntrys extends Activity {
                             entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
 
                             Log.d("entry", entry.toString());
-                            Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();
                             titleArray[i] = scoreList.get(i).getString("title");
                             entrys[i] = entry;
                         } catch (ParseException e1) {
@@ -118,7 +117,7 @@ public class MyEntrys extends Activity {
                     }
                     adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
                     lv.setAdapter(adapter);
-                    Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
                     // Create a ListView-specific touch listener. ListViews are given special treatment because
                     // by default they handle touches for their list items... i.e. they're in charge of drawing
@@ -215,7 +214,7 @@ public class MyEntrys extends Activity {
                 } else {
                     // TODO falls liste leer und man noch keine einträge hat -> aktuell fehler
                     //Log.d("score", "Error: " + e.getMessage());
-                    Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
 
                 }

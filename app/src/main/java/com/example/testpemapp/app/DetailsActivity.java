@@ -118,7 +118,7 @@ public class DetailsActivity extends Activity {
             objectId = bundle.getString("objectIdTest");
             mine = bundle.getBoolean("mine");
 
-            Toast.makeText(DetailsActivity.this, "objectid: " + objectId, Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(DetailsActivity.this, "objectid: " + objectId, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -137,7 +137,7 @@ public class DetailsActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DetailsActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(DetailsActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent();
                 intent.setClassName(getPackageName(), getPackageName()+".ImageFullscreenActivity");
@@ -151,10 +151,10 @@ public class DetailsActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
 
                 setUpMapIfNeeded();
-                Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -240,7 +240,7 @@ public class DetailsActivity extends Activity {
         }
         if (id == R.id.menu_load){
             loadDetails();
-            Toast.makeText(DetailsActivity.this, "loadDetails(): ", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(DetailsActivity.this, "loadDetails(): ", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
@@ -248,7 +248,7 @@ public class DetailsActivity extends Activity {
 
     //TODO: Methoden fehlen noch...
      public void callFriend(View view){
-        Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
          Log.i("Make call", "");
 
          Intent phoneIntent = new Intent(Intent.ACTION_CALL);
@@ -261,13 +261,13 @@ public class DetailsActivity extends Activity {
              Log.i("Finished making a call...", "");
          } catch (android.content.ActivityNotFoundException ex) {
              Toast.makeText(DetailsActivity.this,
-                     "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+                     "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
          }
 
     }
 
     public void sendMail(View view){
-        Toast.makeText(DetailsActivity.this, "sendMail aufgerufen: ", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(DetailsActivity.this, "sendMail aufgerufen: ", Toast.LENGTH_SHORT).show();
         Log.i("Send email", "");
 
         String[] TO = {entryUser.getEmail()};
@@ -296,7 +296,7 @@ public class DetailsActivity extends Activity {
     }
 
     public void findLoc(View view){
-        Toast.makeText(DetailsActivity.this, "findLoc aufgerufen: ", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(DetailsActivity.this, "findLoc aufgerufen: ", Toast.LENGTH_SHORT).show();
 
        // mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
        //        .getMap();

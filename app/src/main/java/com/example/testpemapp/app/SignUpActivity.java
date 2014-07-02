@@ -46,7 +46,7 @@ public class SignUpActivity extends Activity {
         System.out.println("parse user: " + ParseUser.getCurrentUser());
         if (currentUser != null) {
             // do stuff with the user
-            Toast.makeText(SignUpActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, "Hello " + currentUser.getUsername(), Toast.LENGTH_SHORT).show();
 
 
             // NavDrawer:
@@ -59,7 +59,7 @@ public class SignUpActivity extends Activity {
             intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
             //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
             startActivity(intent);
-            Toast.makeText(SignUpActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(SignUpActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
 
 
 
@@ -93,7 +93,7 @@ public class SignUpActivity extends Activity {
             b2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SignUpActivity.this, "button login clicked", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(SignUpActivity.this, "button login clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClassName(getPackageName(), getPackageName() + ".LoginActivity");
                     //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
@@ -137,7 +137,7 @@ public class SignUpActivity extends Activity {
             public void done(ParseException e) {
                 if (e == null) {
                     // Hooray! Let them use the app now.
-                    Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
                     //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
@@ -239,9 +239,9 @@ public class SignUpActivity extends Activity {
         //txtViewContactsInfor.setText("Contacts: "+String.valueOf(countContact));
         //outputText.setText(output.toString());
 
-        Toast.makeText(SignUpActivity.this, "Contacts: "+String.valueOf(countContact), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(SignUpActivity.this, "Contacts: "+String.valueOf(countContact), Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(SignUpActivity.this, output.toString(), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(SignUpActivity.this, output.toString(), Toast.LENGTH_SHORT).show();
 
 
 
