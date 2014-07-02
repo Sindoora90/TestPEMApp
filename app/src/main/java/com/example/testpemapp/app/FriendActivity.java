@@ -118,13 +118,14 @@ public class FriendActivity extends Activity {
                         // TODO hier gibts noch no data for this key exception
                         for (int i = 0; i < followList.size(); i++) {
                             try {
+                                friendList.add(((ParseUser) followList.get(i).get("toUser")).fetchIfNeeded().getUsername());
+
                                 System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).fetchIfNeeded().getUsername());
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                                 System.out.println("miauuuuu");
                             }
 
-                            friendList.add(((ParseUser) followList.get(i).get("toUser")).getUsername());
                             //   System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).getUsername());
                         }
                         adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, friendList);
