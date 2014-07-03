@@ -304,7 +304,7 @@ public class NewEntryActivity extends Activity {
         entry = new Entry(id,title, geschenk,bitmap,  price, description, ParseUser.getCurrentUser());
         Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle(), Toast.LENGTH_SHORT).show();
 
-
+// TODO hier warten auf callback und dann finish -> dann funzt evtl in der main resume
         connection.updateEntry(objectId,pic, title, geschenk, price, description);
         this.finish();
     }
