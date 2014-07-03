@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -176,6 +177,13 @@ public class NewEntryActivity extends Activity {
 
         // fuer floating menu
         registerForContextMenu(imageView);
+        // click auf imageView->contextmenu oeffnet sich:
+        imageView.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();
+            }
+        });
 
 
         ImageButton b = (ImageButton) findViewById(R.id.button);
@@ -394,7 +402,7 @@ public class NewEntryActivity extends Activity {
                 imageView.setImageBitmap(bp);
                 pic = bp;
             } catch(Exception e){
-                
+
             }
 
 
