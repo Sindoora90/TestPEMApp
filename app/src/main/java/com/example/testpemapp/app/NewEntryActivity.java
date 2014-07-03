@@ -389,9 +389,15 @@ public class NewEntryActivity extends Activity {
 
         if(cameraSelected) {
             super.onActivityResult(requestCode, resultCode, data);
-            Bitmap bp = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bp);
-            pic = bp;
+            try {
+                Bitmap bp = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(bp);
+                pic = bp;
+            } catch(Exception e){
+                
+            }
+
+
         }
         else {
             InputStream stream = null;

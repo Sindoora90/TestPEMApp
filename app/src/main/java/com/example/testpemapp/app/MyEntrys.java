@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -55,9 +56,10 @@ public class MyEntrys extends Activity {
 
     }
 
+    boolean removed;
     private void loadEntrys() {
 
-
+        //removed = false;
 
         //ParseQuery die nur meine Entrys zurueckgeben:
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
@@ -139,7 +141,26 @@ public class MyEntrys extends Activity {
 
                                                 scoreList.get(position).deleteInBackground();
 
+                                                scoreList.get(position).deleteInBackground(new DeleteCallback()
+                                                {
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            // myObjectSavedSuccessfully();
+
+                                                        //  removed = true;
+                                                        } else {
+                                                            // myObjectSaveDidNotSucceed();
+                                                            System.out.println("es wurde nicht gelöscht");
+                                                        }
+                                                    }
+                                                });
+//
+//                                                while(!removed){
+//
+//                                                }
                                                 adapter.remove(adapter.getItem(position));
+                                                //removed = false;
+
                                             }
                                             //loadEntrys();
                                             adapter.notifyDataSetChanged();
