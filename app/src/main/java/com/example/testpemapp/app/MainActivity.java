@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
 //            // createNavDrawer();
 //
 //
-            loadEntrys();
+        loadEntrys();
 //
 //
 //        } else {
@@ -160,18 +160,18 @@ public class MainActivity extends Activity {
                 intent.putExtra("mine", false);
 
                 startActivity(intent);
-            //    Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
                 //System.out.println("test");
                 return true;
 
             case R.id.menu_load:
 
                 loadEntrys();
-             //   Toast.makeText(MainActivity.this, "load", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(MainActivity.this, "load", Toast.LENGTH_SHORT).show();
 
             case R.id.action_settings:
                 // settings item was selected
-            //    Toast.makeText(MainActivity.this, "settings clicked", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(MainActivity.this, "settings clicked", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -187,6 +187,15 @@ public class MainActivity extends Activity {
     }
 
 
+    // zum aktualisieren (?)
+//    @Override
+//    public void onResume() {
+//        super.onResume();  // Always call the superclass method first
+//
+//        loadEntrys();
+//        Toast.makeText(MainActivity.this, "es sollte aktualisiert werden", Toast.LENGTH_SHORT).show();
+//    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -201,42 +210,55 @@ public class MainActivity extends Activity {
 //    }
 
 
+    // TODO fehler raus: wenn keine freunde werden eigene einträge auch nicht angezeigt bzw wenn man was löscht zeigt es die teils trotzdem noch an
     private void loadEntrys() {
 
         //connection.getAllEntrys();
 
+        // 1. get all friends:
         ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Friendship");
         innerQuery.include("user");
         innerQuery.whereEqualTo("fromUser", ParseUser.getCurrentUser());
 
         innerQuery.findInBackground(new FindCallback<ParseObject>() {
+
             public void done(List<ParseObject> friendlist, ParseException e) {
                 // comments now contains the comments for posts with images.
 
-                if (e == null && friendlist.size()>0) {
+                if (e == null ) {
 
-                    ParseUser[] names = new ParseUser[friendlist.size()+1];
+                    //TODO statt array arraylist verwenden (wie bei FriendActivity auch)
+                    ParseUser[] names = new ParseUser[friendlist.size() + 1];
                     names[0] = ParseUser.getCurrentUser();
 
+                    // test mit arraylist
+                    //ArrayList<ParseUser> friendnames = new ArrayList<ParseUser>();
+                    //friendnames.add(ParseUser.getCurrentUser());
 
-                    if(friendlist.size()>0){
+                    if (friendlist.size() > 0) {
 
-                    }
-                    for (int i = 0; i < friendlist.size(); i++) {
-                        names[i+1] = (ParseUser) friendlist.get(i).get("toUser");
-                        System.out.println("friendsID: " + names[i]);
 
-                        ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
-                        queryl.include("user");
-                        queryl.orderByDescending("createdAt");
-                        queryl.whereContainedIn("user", Arrays.asList(names));
+                        for (int i = 0; i < friendlist.size(); i++) {
+                            names[i + 1] = (ParseUser) friendlist.get(i).get("toUser");
+                            //test mit arraylist
+                            //friendnames.add((ParseUser) friendlist.get(i).get("toUser"));
 
-                        queryl.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> scoreList, ParseException e) {
-                                // comments now contains the comments for posts with images.
+                            System.out.println("friendsID: " + names[i]);
 
-                                if (e == null) {
-                                    if (scoreList.size() > 0) {
+                            ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
+                            queryl.include("user");
+                            queryl.orderByDescending("createdAt");
+                            queryl.whereContainedIn("user", Arrays.asList(names));
+
+                            //test mit arrayList
+                            //queryl.whereContainedIn("user", friendnames);
+
+                            queryl.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> scoreList, ParseException e) {
+                                    // comments now contains the comments for posts with images.
+
+                                    if (e == null) {
+                                        if (scoreList.size() > 0) {
 //                                        Log.d("score", "Retrieved " + commentList.size() + "entrys");
 //
 //                                        for (int i = 0; i < commentList.size(); i++) {
@@ -245,69 +267,73 @@ public class MainActivity extends Activity {
 //                                            System.out.println("title: " + commentList.get(i).getString("title"));
 //                                        }
 
-                                        Log.d("score", "Retrieved " + scoreList.size() + " scores");
-                                        //size = scoreList.size()-1;
-                                        entrys = new Entry[scoreList.size()];
-                                        titleArray = new String[scoreList.size()];
-                                        Log.d("entry array size: ", "size of entry array:" + entrys.length);
-                                        Entry entry;
-                                        for (int i = 0; i < scoreList.size(); i++) {
-                                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+                                            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                                            //size = scoreList.size()-1;
+                                            entrys = new Entry[scoreList.size()];
+                                            titleArray = new String[scoreList.size()];
+                                            Log.d("entry array size: ", "size of entry array:" + entrys.length);
+                                            Entry entry;
+                                            for (int i = 0; i < scoreList.size(); i++) {
+                                                // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
 
-                                            ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
+                                                ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
 
 
-                                            picFile.getDataInBackground(new GetDataCallback() {
-                                                public void done(byte[] data,
-                                                                 ParseException e) {
-                                                    if (e == null) {
-                                                        pic = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                                picFile.getDataInBackground(new GetDataCallback() {
+                                                    public void done(byte[] data,
+                                                                     ParseException e) {
+                                                        if (e == null) {
+                                                            pic = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-                                                    } else {
-                                                        Log.d("test",
-                                                                "There was a problem downloading the data.");
+                                                        } else {
+                                                            Log.d("test",
+                                                                    "There was a problem downloading the data.");
+                                                        }
                                                     }
+                                                });
+
+
+                                                try {
+                                                    entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
+
+                                                    Log.d("entry", entry.toString());
+                                                    titleArray[i] = scoreList.get(i).getString("title");
+                                                    entrys[i] = entry;
+                                                } catch (ParseException e1) {
+                                                    e1.printStackTrace();
                                                 }
-                                            });
-
-
-                                            try {
-                                                entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
-
-                                                Log.d("entry", entry.toString());
-                                                titleArray[i] = scoreList.get(i).getString("title");
-                                                entrys[i] = entry;
-                                            } catch (ParseException e1) {
-                                                e1.printStackTrace();
                                             }
-                                        }
 
-                                        ArrayList a = new ArrayList<String> (titleArray.length);
-                                        for (String s : titleArray) {
-                                            a.add(s);
-                                        }
-                                        ArrayList b = new ArrayList<Entry>(entrys.length);
-                                        for (Entry s : entrys) {
-                                            b.add(s);
-                                        }
-                                        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
-                                        lv.setAdapter(adapter);
-                                    //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+                                            ArrayList a = new ArrayList<String>(titleArray.length);
+                                            for (String s : titleArray) {
+                                                a.add(s);
+                                            }
+                                            ArrayList b = new ArrayList<Entry>(entrys.length);
+                                            for (Entry s : entrys) {
+                                                b.add(s);
+                                            }
+                                            MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
+                                            lv.setAdapter(adapter);
+                                            //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
 
+                                        } else {
+                                            Log.d("fehler in query not parse", "leere Liste d.h. keine einträge von freunden/sich selbst");
+                                        }
                                     } else {
-                                        Log.d("fehler in query not parse", "leere Liste d.h. keine einträge von freunden/sich selbst");
+                                        Log.d("fehler", "hat nicht geklappt");
+                                        //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+
                                     }
-                                } else {
-                                    Log.d("fehler", "hat nicht geklappt");
-                                //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
-
                                 }
-                            }
-                        });
+                            });
 
+                        }
                     }
                 }
+
+
+
             }
         });
 
@@ -409,10 +435,10 @@ public class MainActivity extends Activity {
         drawerListViewItems = getResources().getStringArray(R.array.items);
 
 
-        //TODO später einkommentieren
+
         //drawer list icons
         //drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_discard, R.drawable.ic_action_settings};
-        drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_settings};
+        drawerIcons = new int[]{R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_settings};
 
         // get ListView defined in activity_main.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
@@ -420,7 +446,7 @@ public class MainActivity extends Activity {
         // Set the adapter for the list view
         //drawerListView.setAdapter(new ArrayAdapter<String>(this,
         //        R.layout.drawer_listview_item, drawerListViewItems));
-        //TODO des drüber auskommentieren und des drunter ein
+
         mNavAdapter = new NavListAdapter(this, drawerListViewItems, drawerIcons);
         drawerListView.setAdapter(mNavAdapter);
 
@@ -449,7 +475,7 @@ public class MainActivity extends Activity {
 
     }
 
-//TODO meinen draweritemclicklistener auskommentieren und den drunter rein
+
 //    private class DrawerItemClickListener implements ListView.OnItemClickListener {
 //        @Override
 //        public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -489,7 +515,7 @@ public class MainActivity extends Activity {
 //        }
 //    }
 
-   // Listener für die Navigation Drawer Einträge - für eigenen Adapter
+    // Listener für die Navigation Drawer Einträge - für eigenen Adapter
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -501,18 +527,18 @@ public class MainActivity extends Activity {
                 drawerLayout.closeDrawer(drawerListView);
             } else if (position == 2) {
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName()+".FriendActivity");
+                intent.setClassName(getPackageName(), getPackageName() + ".FriendActivity");
                 intent.putExtra("index", "testtesttest");
                 startActivity(intent);
                 drawerLayout.closeDrawer(drawerListView);
-            }else if (position == 3) {
+            } else if (position == 3) {
                 // Aktion
             }
             //else if (position == 4) {
-                // Aktion
+            // Aktion
             //}
 
-        //    Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
+            //    Toast.makeText(MainActivity.this, mNavAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
 
             drawerListView.setItemChecked(position, true);
             drawerLayout.closeDrawer(drawerListView);

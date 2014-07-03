@@ -25,4 +25,7 @@
     <string name="camera">Kamera</string>
     <string name="title_activity_image_fullscreen">Bild</string>
 
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
 </resources>

@@ -2,8 +2,10 @@ package com.example.testpemapp.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -129,8 +131,11 @@ public class DetailsActivity extends Activity {
         titleTextView = (TextView) findViewById(R.id.textView3);
         geschenkView = (ImageView)findViewById(R.id.imageView2);
         telButton = (ImageButton) findViewById(R.id.imageButton);
+        telButton.setEnabled(false);
         mailButton = (ImageButton)findViewById(R.id.imageButton2);
+        mailButton.setEnabled(false);
         mapsButton = (ImageButton)findViewById(R.id.imageButton3);
+        mapsButton.setEnabled(false);
 
         loadDetails();
 
@@ -207,6 +212,9 @@ public class DetailsActivity extends Activity {
                 entryUser = new Person(user.getObjectId(), user.getUsername(), user.getString("phone"),user.getEmail(), user.getString("adr"));
                 System.out.println("entryUser email: " + entryUser.getEmail());
                 System.out.println("entryUser telnr: " + entryUser.getTelnr());
+                telButton.setEnabled(true);
+                mailButton.setEnabled(true);
+                mapsButton.setEnabled(true);
 
                 if(price == 0.0){
                     priceTextView.setVisibility(View.GONE);
@@ -248,21 +256,40 @@ public class DetailsActivity extends Activity {
 
     //TODO: Methoden fehlen noch...
      public void callFriend(View view){
-       // Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
-         Log.i("Make call", "");
 
-         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-         String tel = entryUser.getTelnr();
-         phoneIntent.setData(Uri.parse("tel:"+tel));
+         new AlertDialog.Builder(this)
+                 .setTitle("Anruf")
+                 .setMessage("Möchtest Du wirklich anrufen?")
+          //       .setMessage("Willst du wirklich anrufen? ")
+                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int which) {
+                         // continue with delete
+                         // Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
+                         Log.i("Make call", "");
 
-         try {
-             startActivity(phoneIntent);
-            // finish();
-             Log.i("Finished making a call...", "");
-         } catch (android.content.ActivityNotFoundException ex) {
-             Toast.makeText(DetailsActivity.this,
-                     "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
-         }
+                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                         String tel = entryUser.getTelnr();
+                         phoneIntent.setData(Uri.parse("tel:"+tel));
+
+                         try {
+                             startActivity(phoneIntent);
+                             // finish();
+                             Log.i("Finished making a call...", "");
+                         } catch (android.content.ActivityNotFoundException ex) {
+                             Toast.makeText(DetailsActivity.this,
+                                     "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
+                         }
+                     }
+                 })
+                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int which) {
+                         // do nothing
+                     }
+                 })
+                 .setIcon(android.R.drawable.ic_dialog_alert)
+                 .show();
+
+
 
     }
 
