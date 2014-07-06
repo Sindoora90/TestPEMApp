@@ -30,6 +30,7 @@
             android:layout_height="52dp"
             android:inputType="textEmailAddress"
             android:hint="     E-mail"
+            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/login_textfield"
             android:id="@+id/editText"/>
@@ -38,6 +39,7 @@
             android:layout_width="312dp"
             android:layout_height="52dp"
             android:hint="  Passwort"
+            android:gravity="center"
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/login_textfield"
