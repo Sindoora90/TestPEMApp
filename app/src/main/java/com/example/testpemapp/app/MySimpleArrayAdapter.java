@@ -41,7 +41,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
        // textView2.setText("eingestellt von:   " + val[position].getName().getUsername() +  " (position: " +  position + ")");
         // Change the icon for Windows and iPhone
         textView2.setText("von: " + val.get(position).getName().getUsername());
-        if(val.get(position).isGeschenk()){
+        if(val.get(position).isGeschenk() || (val.get(position).getPrice() == 0.0)){
             preis.setVisibility(View.GONE);
         }else{
             geschenk.setVisibility(View.GONE);
