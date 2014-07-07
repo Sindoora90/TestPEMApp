@@ -47,7 +47,7 @@ public class NewEntryActivity extends Activity {
 
     private Entry entry;
     String id = "";
-    String title;
+    String title ="";
     boolean geschenk;
     double price;
     String description;
@@ -89,9 +89,11 @@ public class NewEntryActivity extends Activity {
 
         imageView = (ImageButton) findViewById(R.id.imageButton3);
 
-        price = 0.00;
+        price = 0.0;
         description = "";
-        //pic = R.drawable.ic_launcher; //initialisieren mit dem ic launcher aber geht nicht..
+
+        //TODO mit Bild initialisieren - aktuell des Logo falls man kein Bild angibt
+        pic = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher); //initialisieren mit dem ic launcher aber geht nicht..
 
 
         // falls es von MyEntrys kommt..
@@ -227,7 +229,7 @@ public class NewEntryActivity extends Activity {
                     priceEditText.setText("0.00");
                     priceEditText.setEnabled(false);
                     geschenk = true;
-                    price = 0.00;}
+                    price = 0.0;}
                 else{
                     geschenk = false;
                     priceEditText.setEnabled(true);
@@ -321,11 +323,13 @@ public class NewEntryActivity extends Activity {
         description = descText.getText().toString();
         //geschenk = false;
         EditText priceText = (EditText)findViewById(R.id.editText2);
-        price = Double.parseDouble(priceText.getText().toString());
-
+        if(!priceText.getText().toString().equals("")) {
+            price = Double.parseDouble(priceText.getText().toString());
+        }
+        else{
+            price = 0.0;
+        }
         entry = new Entry(id,title, geschenk,bitmap,  price, description, ParseUser.getCurrentUser());
-        Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle(), Toast.LENGTH_SHORT).show();
-
 
 //
 //        // bild muss extra gespeichert werden:
@@ -353,8 +357,16 @@ public class NewEntryActivity extends Activity {
 //        newEntry.put("picFile", file);
 //        newEntry.saveInBackground();
 
-        connection.createNewEntry(pic, title, geschenk, price, description);
+        if(!title.equals("")) {
+            Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle() + " wurde hinzugefügt!", Toast.LENGTH_SHORT).show();
+            connection.createNewEntry(pic, title, geschenk, price, description);
+            this.finish();
 
+        }
+        else{
+            Toast.makeText(NewEntryActivity.this, "Bitte füge einen Titel ein!", Toast.LENGTH_SHORT).show();
+
+        }
 
 
 
@@ -378,8 +390,6 @@ public class NewEntryActivity extends Activity {
         //Toast.makeText(NewEntryActivity.this, "ID: " + newEntry.getObjectId(), Toast.LENGTH_SHORT).show();
         //System.out.println("ID newentry: " + newEntry.getObjectId());
         //System.out.println("ID gamescore: " + gameScore.getObjectId());
-
-        this.finish();
 
         //funzt bis hier
     }

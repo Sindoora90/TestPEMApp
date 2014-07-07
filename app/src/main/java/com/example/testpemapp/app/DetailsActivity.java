@@ -81,7 +81,6 @@ public class DetailsActivity extends Activity {
             new LatLng(-44, 113), new LatLng(-10, 154));
     static final LatLng TutorialsPoint = new LatLng(21 , 57);
     private static final LatLng MUNICH = new LatLng(48.1, 11.6);
-    private static final LatLng SEOUL = new LatLng(37.566535000000000000, 126.977969199999960000);
     RelativeLayout mapLayout;
     private static LatLng test;
     private String adress;
@@ -106,21 +105,14 @@ public class DetailsActivity extends Activity {
         ft.hide(mMapFragment);
         ft.commit();
 
-//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-//        PushService.setDefaultPushCallback(this, MainActivity.class);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         if (savedInstanceState == null) {
-
-            //String bla = getIntent().getExtras().toString();
 
             Bundle bundle = getIntent().getExtras();
             int index = bundle.getInt("index");
             selected = bundle.getString("selected");
             objectId = bundle.getString("objectIdTest");
             mine = bundle.getBoolean("mine");
-
-          //  Toast.makeText(DetailsActivity.this, "objectid: " + objectId, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -142,8 +134,6 @@ public class DetailsActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   Toast.makeText(DetailsActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent();
                 intent.setClassName(getPackageName(), getPackageName()+".ImageFullscreenActivity");
                 intent.putExtra("index", "testtesttest");
@@ -152,17 +142,6 @@ public class DetailsActivity extends Activity {
             }
         });
 
-        mapsButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-            //    Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
-
-                setUpMapIfNeeded();
-             //   Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
-            }
-
-        });
 
 
     }
@@ -260,10 +239,8 @@ public class DetailsActivity extends Activity {
          new AlertDialog.Builder(this)
                  .setTitle("Anruf")
                  .setMessage("Möchtest Du wirklich anrufen?")
-          //       .setMessage("Willst du wirklich anrufen? ")
                  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                      public void onClick(DialogInterface dialog, int which) {
-                         // continue with delete
                          // Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
                          Log.i("Make call", "");
 
@@ -299,7 +276,6 @@ public class DetailsActivity extends Activity {
 
         String[] TO = {entryUser.getEmail()};
        // String[] TO = {"badri90@gmx.de"};
-       // String[] CC = {"mcmohd@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
@@ -323,10 +299,10 @@ public class DetailsActivity extends Activity {
     }
 
     public void findLoc(View view){
-     //   Toast.makeText(DetailsActivity.this, "findLoc aufgerufen: ", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
 
-       // mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-       //        .getMap();
+        setUpMapIfNeeded();
+        //   Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
 
     }
 

@@ -6,9 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.PushService;
 
-/**
- * Created by Sindoora on 02.07.14.
- */
+
 public class App extends Application {
 
 

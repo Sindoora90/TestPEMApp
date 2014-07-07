@@ -84,7 +84,7 @@ public class SignUpActivity extends Activity {
                     // an parse den neuen nutzer schicken...
 
                     registerNewUser();
-                    getFriends();
+                    //getFriends();
                     //finish();
                 }
             });
@@ -118,31 +118,36 @@ public class SignUpActivity extends Activity {
 
     private void registerNewUser() {
 
-         name = (EditText)findViewById(R.id.editText);
-         email = (EditText)findViewById(R.id.editText3);
-         pw = (EditText)findViewById(R.id.editText2);
-         phone = (EditText)findViewById(R.id.editText4);
-         adr = (EditText)findViewById(R.id.editText5);
+        name = (EditText) findViewById(R.id.editText);
+        email = (EditText) findViewById(R.id.editText3);
+        pw = (EditText) findViewById(R.id.editText2);
+        phone = (EditText) findViewById(R.id.editText4);
+        adr = (EditText) findViewById(R.id.editText5);
 
         //TODO falls leere felder -> absturz
-        ParseUser user = new ParseUser();
+        if (name.getText().toString().equals("") || pw.getText().toString().equals("") || email.getText().toString().equals("") || phone.getText().toString().equals("") || adr.getText().toString().equals("")) {
+        Toast.makeText(SignUpActivity.this, "Bitte fülle alle Felder aus!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            ParseUser user = new ParseUser();
         user.setUsername(name.getText().toString());
         user.setPassword(pw.getText().toString());
         user.setEmail(email.getText().toString());
 
-        user.put("phone",phone.getText().toString());
+        user.put("phone", phone.getText().toString());
         user.put("adr", adr.getText().toString());
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
                     // Hooray! Let them use the app now.
-                 //   Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(SignUpActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
                     //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
                     startActivity(intent);
 
+                    Toast.makeText(SignUpActivity.this, "Hello " + name.getText().toString(), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     // Sign up didn't succeed. Look at the ParseException to figure out what went wrong
@@ -152,6 +157,8 @@ public class SignUpActivity extends Activity {
                 }
             }
         });
+
+    }
     }
 
 

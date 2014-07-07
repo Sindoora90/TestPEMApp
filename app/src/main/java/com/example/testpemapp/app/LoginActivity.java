@@ -41,7 +41,7 @@ public class LoginActivity extends Activity {
                 // an parse den neuen nutzer schicken...
 
                 logInUser();
-                getFriends();
+              //  getFriends();
                 //finish();
             }
         });
