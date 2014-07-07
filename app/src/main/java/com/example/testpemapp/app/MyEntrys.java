@@ -24,18 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// to do :
-// - laenger auf ein listitem druecken -> loeschen option, oder wischen = loeschen?
-// - einzelne items in detailview dann bearbeiten koennen
-
 public class MyEntrys extends Activity {
 
     Bitmap pic;
-    private      ListView lv;
-//    ListAdapter adapter;
+    private ListView lv;
+    //    ListAdapter adapter;
     MySimpleArrayAdapter adapter;
 
-  //  Entry[] entrys;
+    //  Entry[] entrys;
     ArrayList<Entry> entryslist;
     String[] titleArray;
 
@@ -44,41 +40,34 @@ public class MyEntrys extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_entrys);
 
-        // test test test 
 
-//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-//        PushService.setDefaultPushCallback(this, MainActivity.class);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
-
-        lv = (ListView)findViewById(R.id.listView);
+        lv = (ListView) findViewById(R.id.listView);
 
         loadEntrys();
 
     }
 
     boolean removed;
+
     private void loadEntrys() {
 
-        //removed = false;
-
-        //ParseQuery die nur meine Entrys zurueckgeben:
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
         query.include("user");
         query.orderByDescending("createdAt");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(final List<ParseObject> scoreList, ParseException e) {
-                if (e == null && scoreList.size()>0) {
+                if (e == null && scoreList.size() > 0) {
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                     //entrys = new Entry[scoreList.size()];
                     entryslist = new ArrayList<Entry>();
                     titleArray = new String[scoreList.size()];
                     Entry entry;
 
-                    for(int i = 0; i < scoreList.size(); i++){
+                    for (int i = 0; i < scoreList.size(); i++) {
                         // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
 
-                        ParseFile picFile = (ParseFile)scoreList.get(i).getParseFile("picFile");
+                        ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
 
 
                         picFile.getDataInBackground(new GetDataCallback() {
@@ -99,10 +88,10 @@ public class MyEntrys extends Activity {
                         //        ,0.00, "description blablabla", ParseUser.getCurrentUser());
 
                         try {
-                            entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser)scoreList.get(i).get("user"));
+                            entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
 
                             Log.d("entry", entry.toString());
-                          //  Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();
                             titleArray[i] = scoreList.get(i).getString("title");
                             //entrys[i] = entry;
                             entryslist.add(entry);
@@ -111,7 +100,7 @@ public class MyEntrys extends Activity {
                         }
                     }
 
-                    ArrayList a = new ArrayList<String> (titleArray.length);
+                    ArrayList a = new ArrayList<String>(titleArray.length);
                     for (String s : titleArray) {
                         a.add(s);
                     }
@@ -121,11 +110,8 @@ public class MyEntrys extends Activity {
 //                    }
                     adapter = new MySimpleArrayAdapter(getApplicationContext(), a, entryslist);
                     lv.setAdapter(adapter);
-                 //   Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
-                    // Create a ListView-specific touch listener. ListViews are given special treatment because
-                    // by default they handle touches for their list items... i.e. they're in charge of drawing
-                    // the pressed state (the list selector), handling list item clicks, etc.
                     SwipeDismissListViewTouchListener touchListener =
                             new SwipeDismissListViewTouchListener(
                                     lv,
@@ -139,86 +125,26 @@ public class MyEntrys extends Activity {
                                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                             for (int position : reverseSortedPositions) {
 
-                                                // TODO: aus parse löschen:
-
                                                 scoreList.get(position).deleteInBackground();
-//
-//                                                scoreList.get(position).deleteInBackground(new DeleteCallback()
-//                                                {
-//                                                    public void done(ParseException e) {
-//                                                        if (e == null) {
-//                                                            // myObjectSavedSuccessfully();
-//
-//                                                        //  removed = true;
-//                                                        } else {
-//                                                            // myObjectSaveDidNotSucceed();
-//                                                            System.out.println("es wurde nicht gelöscht");
-//                                                        }
-//                                                    }
-//                                                });
-//
-//                                                while(!removed){
-//
-//                                                }
-                                                //System.out.println("adaptergetitem(position) " + adapter.getItem(position));
                                                 adapter.getEntrys().remove(position);
                                                 adapter.remove(adapter.getItem(position));
-                                                //removed = false;
+
 
                                             }
                                             //loadEntrys();
                                             adapter.notifyDataSetChanged();
                                         }
-                                    });
+                                    }
+                            );
                     lv.setOnTouchListener(touchListener);
-                    // Setting this scroll listener is required to ensure that during ListView scrolling,
-                    // we don't look for swipes.
+
                     lv.setOnScrollListener(touchListener.makeScrollListener());
 
-//                    // Set up normal ViewGroup example
-//                    final ViewGroup dismissableContainer = (ViewGroup) findViewById(R.id.dismissable_container);
-//                    for (int i = 0; i < items.length; i++) {
-//                        final Button dismissableButton = new Button(this);
-//                        dismissableButton.setLayoutParams(new ViewGroup.LayoutParams(
-//                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                        dismissableButton.setText("Button " + (i + 1));
-//                        dismissableButton.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Toast.makeText(MyEntrys.this,
-//                                        "Clicked " + ((Button) view).getText(),
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                        // Create a generic swipe-to-dismiss touch listener.
-//                        dismissableButton.setOnTouchListener(new SwipeDismissTouchListener(
-//                                dismissableButton,
-//                                null,
-//                                new SwipeDismissTouchListener.DismissCallbacks() {
-//                                    @Override
-//                                    public boolean canDismiss(Object token) {
-//                                        return true;
-//                                    }
-//
-//                                    @Override
-//                                    public void onDismiss(View view, Object token) {
-//                                        dismissableContainer.removeView(dismissableButton);
-//                                    }
-//                                }));
-//                        dismissableContainer.addView(dismissableButton);
-//                    }
-
-
-
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                    {
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-                        {
-                            // entweder detailview erst aufrufen oder gleich die newEntry mit den fertigen werten.. ?
-                            // bzw des parseobjekt an die newEntry über intent mitgeben ?
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                             Intent intent = new Intent();
-                            intent.setClassName(getPackageName(), getPackageName()+".NewEntryActivity");
+                            intent.setClassName(getPackageName(), getPackageName() + ".NewEntryActivity");
                             intent.putExtra("index", arg2);
                             //gibt title mit
                             intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
@@ -228,18 +154,14 @@ public class MyEntrys extends Activity {
                             //intent.putExtra("object", lv.getAdapter().getItem(arg2).toString());
                             startActivity(intent);
 
-
-                            //test änderung
-
                         }
                     });
 
 
-
                 } else {
-                    // TODO falls liste leer und man noch keine einträge hat -> aktuell fehler
+
                     //Log.d("score", "Error: " + e.getMessage());
-               //     Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+                    //     Toast.makeText(MyEntrys.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -254,7 +176,7 @@ public class MyEntrys extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my_entrys, menu);
         return true;

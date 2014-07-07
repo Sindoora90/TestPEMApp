@@ -31,23 +31,18 @@ import com.parse.ParseUser;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-/**
- * Activity zum Erstellen neuer Eintraege
- *
- */
-
 
 public class NewEntryActivity extends Activity {
 
     // fuer die cam:
-     final static String DEBUG_TAG = "NewEntryActivity";
+    final static String DEBUG_TAG = "NewEntryActivity";
     private Camera camera;
     private int cameraId = 0;
 
 
     private Entry entry;
     String id = "";
-    String title ="";
+    String title = "";
     boolean geschenk;
     double price;
     String description;
@@ -78,13 +73,6 @@ public class NewEntryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
 
-
-
-
-//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-//        PushService.setDefaultPushCallback(this, MainActivity.class);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
-
         connection = new ParseConnection();
 
         imageView = (ImageButton) findViewById(R.id.imageButton3);
@@ -92,9 +80,8 @@ public class NewEntryActivity extends Activity {
         price = 0.0;
         description = "";
 
-        //TODO mit Bild initialisieren - aktuell des Logo falls man kein Bild angibt
-        pic = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher); //initialisieren mit dem ic launcher aber geht nicht..
-
+        // mit Bild initialisieren - aktuell des Logo falls man kein Bild angibt
+        pic = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
         // falls es von MyEntrys kommt..
         if (savedInstanceState == null) {
@@ -106,12 +93,11 @@ public class NewEntryActivity extends Activity {
             selected = bundle.getString("selected");
             mine = bundle.getBoolean("mine");
 
-           // Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(NewEntryActivity.this, "selected: " + selected, Toast.LENGTH_SHORT).show();
 
         }
 
         // fuer die Cam:
-        // do we have a camera?
         if (!getPackageManager()
                 .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG)
@@ -123,24 +109,19 @@ public class NewEntryActivity extends Activity {
                         Toast.LENGTH_LONG).show();
             } else {
                 camera = Camera.open(cameraId);
-               // Toast.makeText(this, "CAM sollt funzen.",
-               //         Toast.LENGTH_SHORT).show();
+
             }
         }
 
 
-
-        imageView = (ImageButton)findViewById(R.id.imageButton3);
-
-        // ueber parsequery object holen und an die passenden stellen die werte eintragen
-        // update methode von parse aufrufen bei ok
-        if(mine){
+        imageView = (ImageButton) findViewById(R.id.imageButton3);
+        if (mine) {
 
             //nameTextView = (TextView)findViewById(R.id.textView);
-            descTextView = (TextView)findViewById(R.id.editText3);
-            imageView = (ImageButton)findViewById(R.id.imageButton3);
-            priceTextView = (TextView)findViewById(R.id.editText2);
-            titleTextView = (TextView)findViewById(R.id.titleEditText);
+            descTextView = (TextView) findViewById(R.id.editText3);
+            imageView = (ImageButton) findViewById(R.id.imageButton3);
+            priceTextView = (TextView) findViewById(R.id.editText2);
+            titleTextView = (TextView) findViewById(R.id.titleEditText);
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
             query.whereEqualTo("title", selected);
@@ -150,10 +131,10 @@ public class NewEntryActivity extends Activity {
                 public void done(ParseObject parseObject, ParseException e) {
                     title = parseObject.getString("title");
                     description = parseObject.getString("description");
-                    name = ((ParseUser)parseObject.get("user")).getUsername();
+                    name = ((ParseUser) parseObject.get("user")).getUsername();
                     price = parseObject.getDouble("price");
 
-                    picFile = (ParseFile)parseObject.getParseFile("picFile");
+                    picFile = (ParseFile) parseObject.getParseFile("picFile");
 
                     picFile.getDataInBackground(new GetDataCallback() {
                         public void done(byte[] data,
@@ -166,7 +147,7 @@ public class NewEntryActivity extends Activity {
                             }
                         }
                     });
-                   // nameTextView.setText(name);
+                    // nameTextView.setText(name);
                     titleTextView.setText(title);
                     descTextView.setText(description);
                     priceTextView.setText(Double.toString(price));
@@ -193,12 +174,11 @@ public class NewEntryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // falls nur update gemacht werden soll...
-                if(mine){
-               //  Toast.makeText(NewEntryActivity.this, "update ok", Toast.LENGTH_SHORT).show();
+                if (mine) {
+
                     updateEntry(objectId);
-                }
-                else {
-                 //   Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
+                } else {
+
                     createNewEntry();
                 }
             }
@@ -208,9 +188,7 @@ public class NewEntryActivity extends Activity {
         abr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    Toast.makeText(NewEntryActivity.this, "button abbrechen clicked", Toast.LENGTH_SHORT).show();
                 finish();
-             //  abbrechen();
             }
         });
 
@@ -221,16 +199,13 @@ public class NewEntryActivity extends Activity {
         geschenkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    Toast.makeText(NewEntryActivity.this, "image1 clicked", Toast.LENGTH_SHORT).show();
-                //geschenkButton.setImageResource(R.drawable.bri);
-               // kaufButton.setImageResource(R.drawable.ic_launcher);
 
-                if(geschenk==false){
+                if (geschenk == false) {
                     priceEditText.setText("0.00");
                     priceEditText.setEnabled(false);
                     geschenk = true;
-                    price = 0.0;}
-                else{
+                    price = 0.0;
+                } else {
                     geschenk = false;
                     priceEditText.setEnabled(true);
                 }
@@ -238,25 +213,10 @@ public class NewEntryActivity extends Activity {
             }
         });
 
-
-
-//        kaufButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(NewEntryActivity.this, "image2 clicked", Toast.LENGTH_SHORT).show();
-//                geschenkButton.setImageResource(R.drawable.fri);
-//                kaufButton.setImageResource(R.drawable.bri);
-//                priceEditText.setEnabled(true);
-//                geschenk = false;
-//
-//            }
-//        });
-
     }
 
     // fuer die Cam:
     public void onClick() {
-
 
         camera.takePicture(null, null,
                 new PhotoHandler(getApplicationContext()));
@@ -265,7 +225,7 @@ public class NewEntryActivity extends Activity {
 
     private int findFrontFacingCamera() {
         int cameraId = -1;
-        // Search for the front facing camera
+        // Suche Cam
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
             CameraInfo info = new CameraInfo();
@@ -289,7 +249,6 @@ public class NewEntryActivity extends Activity {
     }
 
 
-
     private void updateEntry(String objectId) {
         // updated den vorhandenen entry...
         //EditText nameField = (EditText) findViewById(R.id.inputText);
@@ -297,17 +256,16 @@ public class NewEntryActivity extends Activity {
         EditText titleText = (EditText) findViewById(R.id.titleEditText);
         title = titleText.getText().toString();
 
-        EditText descText = (EditText)findViewById(R.id.editText3);
+        EditText descText = (EditText) findViewById(R.id.editText3);
         description = descText.getText().toString();
         //geschenk = false;
-        EditText priceText = (EditText)findViewById(R.id.editText2);
+        EditText priceText = (EditText) findViewById(R.id.editText2);
         price = Double.parseDouble(priceText.getText().toString());
 
-        entry = new Entry(id,title, geschenk,bitmap,  price, description, ParseUser.getCurrentUser());
-        Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle(), Toast.LENGTH_SHORT).show();
+        entry = new Entry(id, title, geschenk, bitmap, price, description, ParseUser.getCurrentUser());
+        Toast.makeText(NewEntryActivity.this, (CharSequence) entry.getTitle(), Toast.LENGTH_SHORT).show();
 
-// TODO hier warten auf callback und dann finish -> dann funzt evtl in der main resume
-        connection.updateEntry(objectId,pic, title, geschenk, price, description);
+        connection.updateEntry(objectId, pic, title, geschenk, price, description);
         this.finish();
     }
 
@@ -319,79 +277,28 @@ public class NewEntryActivity extends Activity {
         EditText titleText = (EditText) findViewById(R.id.titleEditText);
         title = titleText.getText().toString();
 
-        EditText descText = (EditText)findViewById(R.id.editText3);
+        EditText descText = (EditText) findViewById(R.id.editText3);
         description = descText.getText().toString();
         //geschenk = false;
-        EditText priceText = (EditText)findViewById(R.id.editText2);
-        if(!priceText.getText().toString().equals("")) {
+        EditText priceText = (EditText) findViewById(R.id.editText2);
+        if (!priceText.getText().toString().equals("")) {
             price = Double.parseDouble(priceText.getText().toString());
-        }
-        else{
+        } else {
             price = 0.0;
         }
-        entry = new Entry(id,title, geschenk,bitmap,  price, description, ParseUser.getCurrentUser());
+        entry = new Entry(id, title, geschenk, bitmap, price, description, ParseUser.getCurrentUser());
 
-//
-//        // bild muss extra gespeichert werden:
-//
-//        //pic = (Bitmap) ex.get("data");
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        // get byte array here
-//        byte[] bytearray = stream.toByteArray();
-//
-//        // byte[] data = "Working at Parse is great!".getBytes();
-//        byte[] data;
-//        ParseFile file = new ParseFile("nameDesBildes.png", bytearray);
-//        file.saveInBackground();
-//
-//
-//        // speichern des eigentlichen Entry objekts mit einem verweis auf des bild
-//        ParseObject newEntry = new ParseObject("Entry");
-//        newEntry.put("title", title);
-//        newEntry.put("geschenk", geschenk);
-//        //newEntry.put("bitmap", pic);
-//        newEntry.put("price", price);
-//        newEntry.put("description", description);
-//        newEntry.put("user", ParseUser.getCurrentUser());
-//        newEntry.put("picFile", file);
-//        newEntry.saveInBackground();
 
-        if(!title.equals("")) {
-            Toast.makeText(NewEntryActivity.this, (CharSequence)entry.getTitle() + " wurde hinzugefügt!", Toast.LENGTH_SHORT).show();
+        if (!title.equals("")) {
+            Toast.makeText(NewEntryActivity.this, (CharSequence) entry.getTitle() + " wurde hinzugefügt!", Toast.LENGTH_SHORT).show();
             connection.createNewEntry(pic, title, geschenk, price, description);
             this.finish();
 
-        }
-        else{
+        } else {
             Toast.makeText(NewEntryActivity.this, "Bitte füge einen Titel ein!", Toast.LENGTH_SHORT).show();
 
         }
 
-
-
-//
-//        // mit dem eigtl ParseObject verbinden also mit dem Entry
-//        ParseObject entry = new ParseObject("Entry");
-//        entry.put("title", title);
-//        entry.put("picFile", file);
-//        entry.saveInBackground();
-
-
-
-        // lokal speichern:
-        //ParseObject gameScore = new ParseObject("Entry");
-        //gameScore.put("title", title);
-        //gameScore.pinInBackground(new SaveCallback() {
-        //    public void done(ParseException e) {
-                // Handle success or failure here ...
-        //    }});
-
-        //Toast.makeText(NewEntryActivity.this, "ID: " + newEntry.getObjectId(), Toast.LENGTH_SHORT).show();
-        //System.out.println("ID newentry: " + newEntry.getObjectId());
-        //System.out.println("ID gamescore: " + gameScore.getObjectId());
-
-        //funzt bis hier
     }
 
     public void onImageButtonClick() {
@@ -405,23 +312,22 @@ public class NewEntryActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(cameraSelected) {
+        if (cameraSelected) {
             super.onActivityResult(requestCode, resultCode, data);
             try {
                 Bitmap bp = (Bitmap) data.getExtras().get("data");
                 imageView.setImageBitmap(bp);
                 pic = bp;
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
 
 
-        }
-        else {
+        } else {
             InputStream stream = null;
             if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
                 try {
-                    // recyle unused bitmaps
+
                     if (bitmap != null) {
                         bitmap.recycle();
                     }
@@ -437,26 +343,9 @@ public class NewEntryActivity extends Activity {
     }
 
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_new_entry);
-//
-//
-//        Button b = (Button) findViewById(R.id.button);
-//        b.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(NewEntryActivity.this, "button ok clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new_entry, menu);
         return true;
@@ -476,50 +365,39 @@ public class NewEntryActivity extends Activity {
     }
 
 
-
     // fuer floating context menu:
 
-    /** This will be invoked when an item in the listview is long pressed */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.actions , menu);
+        getMenuInflater().inflate(R.menu.actions, menu);
     }
 
-    /** This will be invoked when a menu item is selected */
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_item_camera:
-                //onClick();
+
                 cameraSelected = true;
                 open();
-            //    Toast.makeText(this, "Edit : " , Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_item_galerie:
                 cameraSelected = false;
                 onImageButtonClick();
-            //    Toast.makeText(this, "Share : "  , Toast.LENGTH_SHORT).show();
                 break;
 
         }
         return true;
     }
 
-    public void open(){
+    public void open() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // TODO Auto-generated method stub
-//        super.onActivityResult(requestCode, resultCode, data);
-//        Bitmap bp = (Bitmap) data.getExtras().get("data");
-//        imgFavorite.setImageBitmap(bp);
-//    }
 }

@@ -8,10 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by Admin on 29.06.14.
- */
-public class NavListAdapter extends BaseAdapter{
+
+public class NavListAdapter extends BaseAdapter {
 
     private Context context;
     private String[] mTitle;

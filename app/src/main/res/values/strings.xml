@@ -14,7 +14,7 @@
         <item>FriendShifts</item>
         <item>Meine Shifts</item>
         <item>Freunde</item>
-        <item>Einstellungen</item>
+        <!--<item>Einstellungen</item>-->
     </string-array>
 
     <string name="drawer_open">Open</string>

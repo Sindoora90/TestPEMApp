@@ -38,29 +38,22 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         ImageView geschenk = (ImageView) rowView.findViewById(R.id.geschenkview);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         textView.setText(values.get(position));
-       // textView2.setText("eingestellt von:   " + val[position].getName().getUsername() +  " (position: " +  position + ")");
-        // Change the icon for Windows and iPhone
+
         textView2.setText("von: " + val.get(position).getName().getUsername());
-        if(val.get(position).isGeschenk() || (val.get(position).getPrice() == 0.0)){
+        if (val.get(position).isGeschenk() || (val.get(position).getPrice() == 0.0)) {
             preis.setVisibility(View.GONE);
-        }else{
+        } else {
             geschenk.setVisibility(View.GONE);
             preis.setText(Double.toString(val.get(position).getPrice()) + " €");
         }
-        //String s = values.get(position);
-        //if (s.startsWith("Windows7") || s.startsWith("iPhone")
-          //      || s.startsWith("Solaris")) {
+
         Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(val.get(position).getPicture(), 250, 250);
         imageView.setImageBitmap(ThumbImage);
-
-        //} else {
-          //  imageView.setImageResource(R.drawable.fri);
-        //}
 
         return rowView;
     }
 
-    public ArrayList<Entry> getEntrys(){
+    public ArrayList<Entry> getEntrys() {
         return val;
     }
 }

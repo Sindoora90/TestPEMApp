@@ -37,11 +37,8 @@ public class LoginActivity extends Activity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
-                // an parse den neuen nutzer schicken...
 
                 logInUser();
-              //  getFriends();
                 //finish();
             }
         });
@@ -50,7 +47,6 @@ public class LoginActivity extends Activity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Toast.makeText(LoginActivity.this, "button register clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setClassName(getPackageName(), getPackageName() + ".SignUpActivity");
                 //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
@@ -59,16 +55,13 @@ public class LoginActivity extends Activity {
             }
         });
 
-
     }
-
-
 
 
     private void logInUser() {
 
-        emailEditText = (EditText)findViewById(R.id.editText);
-        pwEditText = (EditText)findViewById(R.id.editText2);
+        emailEditText = (EditText) findViewById(R.id.editText);
+        pwEditText = (EditText) findViewById(R.id.editText2);
 
         email = emailEditText.getText().toString();
         pw = pwEditText.getText().toString();
@@ -77,51 +70,41 @@ public class LoginActivity extends Activity {
         System.out.println("email: " + email);
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("email", email );
-         query.getFirstInBackground(new GetCallback<ParseUser>() {
-             public void done(ParseUser object, ParseException e) {
-                 if (object == null) {
-                     Log.d("score", "The getFirst request failed.");
-                 } else {
-                     Log.d("score", "Retrieved the object.");
-                     name = object.getUsername();
-                     ParseUser.logInInBackground(name, pw, new LogInCallback() {
-                         public void done(ParseUser user, ParseException e) {
-                             if (user != null) {
-                                 // Hooray! The user is logged in.
-                               //   Toast.makeText(LoginActivity.this, "login hat geklappt", Toast.LENGTH_SHORT).show();
-                                 Intent intent = new Intent();
-                                 intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
-                                 //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-                                 startActivity(intent);
-                                 finish();
-                             } else {
-                                 // Signup failed. Look at the ParseException to see what happened.
-                                 Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+        query.whereEqualTo("email", email);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser object, ParseException e) {
+                if (object == null) {
+                    Log.d("score", "The getFirst request failed.");
+                } else {
+                    Log.d("score", "Retrieved the object.");
+                    name = object.getUsername();
+                    ParseUser.logInInBackground(name, pw, new LogInCallback() {
+                        public void done(ParseUser user, ParseException e) {
+                            if (user != null) {
+                                // Hooray! The user is logged in.
+                                Intent intent = new Intent();
+                                intent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+                                //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                // Signup failed. Look at the ParseException to see what happened.
+                                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
 
-                             }
-                         }
-                     });
+                            }
+                        }
+                    });
 
-                 }
-             }
-         });
-
-       // finish();
+                }
+            }
+        });
 
     }
 
-
-
-    // in dieser methode soll adressbuch durchsucht werden, mit handynummern verglichen und passende user ausgegeben werden
-    private void getFriends() {
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.login, menu);
         return true;

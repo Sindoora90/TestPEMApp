@@ -1,8 +1,5 @@
 package com.example.testpemapp.app;
 
-/**
- * Created by Sindoora on 19.06.14.
- */
 public class Person {
 
     String id;
@@ -13,12 +10,12 @@ public class Person {
 
 
     // Konstruktor nur fuer FriendActivity zum finden der freunde
-    public Person(String name, String telnr){
+    public Person(String name, String telnr) {
         this.name = name;
         this.telnr = telnr;
     }
 
-    public Person(String id, String name, String telnr, String email, String adresse){
+    public Person(String id, String name, String telnr, String email, String adresse) {
         this.id = id;
         this.name = name;
         this.telnr = telnr;

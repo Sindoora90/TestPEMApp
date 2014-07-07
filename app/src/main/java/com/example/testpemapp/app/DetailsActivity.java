@@ -79,7 +79,7 @@ public class DetailsActivity extends Activity {
     // Create a LatLngBounds that includes Australia.
     private LatLngBounds AUSTRALIA = new LatLngBounds(
             new LatLng(-44, 113), new LatLng(-10, 154));
-    static final LatLng TutorialsPoint = new LatLng(21 , 57);
+    static final LatLng TutorialsPoint = new LatLng(21, 57);
     private static final LatLng MUNICH = new LatLng(48.1, 11.6);
     RelativeLayout mapLayout;
     private static LatLng test;
@@ -91,7 +91,6 @@ public class DetailsActivity extends Activity {
     ImageButton mailButton;
     ImageButton mapsButton;
     private Location myLocation;
-
 
 
     @Override
@@ -121,12 +120,12 @@ public class DetailsActivity extends Activity {
         imageView = (ImageButton) findViewById(R.id.imageView);
         priceTextView = (TextView) findViewById(R.id.textView4);
         titleTextView = (TextView) findViewById(R.id.textView3);
-        geschenkView = (ImageView)findViewById(R.id.imageView2);
+        geschenkView = (ImageView) findViewById(R.id.imageView2);
         telButton = (ImageButton) findViewById(R.id.imageButton);
         telButton.setEnabled(false);
-        mailButton = (ImageButton)findViewById(R.id.imageButton2);
+        mailButton = (ImageButton) findViewById(R.id.imageButton2);
         mailButton.setEnabled(false);
-        mapsButton = (ImageButton)findViewById(R.id.imageButton3);
+        mapsButton = (ImageButton) findViewById(R.id.imageButton3);
         mapsButton.setEnabled(false);
 
         loadDetails();
@@ -135,13 +134,12 @@ public class DetailsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName()+".ImageFullscreenActivity");
+                intent.setClassName(getPackageName(), getPackageName() + ".ImageFullscreenActivity");
                 intent.putExtra("index", "testtesttest");
                 intent.putExtra("objectIdTest", objectId);
                 startActivity(intent);
             }
         });
-
 
 
     }
@@ -155,8 +153,6 @@ public class DetailsActivity extends Activity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
-                //TODO if parseObject!=null einfügen sonst fehler..
-
                 title = parseObject.getString("title");
                 description = parseObject.getString("description");
                 name = ((ParseUser) parseObject.get("user")).getUsername();
@@ -172,7 +168,7 @@ public class DetailsActivity extends Activity {
                                      ParseException e) {
                         if (e == null) {
                             Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            // zwei zeilen drunter neu
+
                             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bmp, 700, 300);
                             bmp = ThumbImage;
                             imageView.setImageBitmap(bmp);
@@ -187,18 +183,18 @@ public class DetailsActivity extends Activity {
 
                 ParseUser user = (ParseUser) parseObject.get("user");
                 //String id, String name, String telnr, String email, String adresse
-                //TODO keys überprüfen...
-                entryUser = new Person(user.getObjectId(), user.getUsername(), user.getString("phone"),user.getEmail(), user.getString("adr"));
+
+                entryUser = new Person(user.getObjectId(), user.getUsername(), user.getString("phone"), user.getEmail(), user.getString("adr"));
                 System.out.println("entryUser email: " + entryUser.getEmail());
                 System.out.println("entryUser telnr: " + entryUser.getTelnr());
                 telButton.setEnabled(true);
                 mailButton.setEnabled(true);
                 mapsButton.setEnabled(true);
 
-                if(price == 0.0){
+                if (price == 0.0) {
                     priceTextView.setVisibility(View.GONE);
-                }else{
-                    priceTextView.setText( price + "€");
+                } else {
+                    priceTextView.setText(price + "€");
                     geschenkView.setVisibility(View.GONE);
                 }
             }
@@ -225,61 +221,55 @@ public class DetailsActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.menu_load){
+        if (id == R.id.menu_load) {
             loadDetails();
-          //  Toast.makeText(DetailsActivity.this, "loadDetails(): ", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO: Methoden fehlen noch...
-     public void callFriend(View view){
+    public void callFriend(View view) {
 
-         new AlertDialog.Builder(this)
-                 .setTitle("Anruf")
-                 .setMessage("Möchtest Du wirklich anrufen?")
-                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int which) {
-                         // Toast.makeText(DetailsActivity.this, "callFriend aufgerufen: ", Toast.LENGTH_SHORT).show();
-                         Log.i("Make call", "");
+        new AlertDialog.Builder(this)
+                .setTitle("Anruf")
+                .setMessage("Möchtest Du wirklich anrufen?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("Make call", "");
 
-                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                         String tel = entryUser.getTelnr();
-                         phoneIntent.setData(Uri.parse("tel:"+tel));
+                        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                        String tel = entryUser.getTelnr();
+                        phoneIntent.setData(Uri.parse("tel:" + tel));
 
-                         try {
-                             startActivity(phoneIntent);
-                             // finish();
-                             Log.i("Finished making a call...", "");
-                         } catch (android.content.ActivityNotFoundException ex) {
-                             Toast.makeText(DetailsActivity.this,
-                                     "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
-                         }
-                     }
-                 })
-                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int which) {
-                         // do nothing
-                     }
-                 })
-                 .setIcon(android.R.drawable.ic_dialog_alert)
-                 .show();
-
+                        try {
+                            startActivity(phoneIntent);
+                            // finish();
+                            Log.i("Finished making a call...", "");
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            Toast.makeText(DetailsActivity.this,
+                                    "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
 
 
     }
 
-    public void sendMail(View view){
-      //  Toast.makeText(DetailsActivity.this, "sendMail aufgerufen: ", Toast.LENGTH_SHORT).show();
+    public void sendMail(View view) {
         Log.i("Send email", "");
 
         String[] TO = {entryUser.getEmail()};
-       // String[] TO = {"badri90@gmx.de"};
+        // String[] TO = {"badri90@gmx.de"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
-
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         //emailIntent.putExtra(Intent.EXTRA_CC, CC);
@@ -298,9 +288,8 @@ public class DetailsActivity extends Activity {
 
     }
 
-    public void findLoc(View view){
+    public void findLoc(View view) {
         //    Toast.makeText(DetailsActivity.this, "button maps clicked", Toast.LENGTH_SHORT).show();
-
         setUpMapIfNeeded();
         //   Toast.makeText(DetailsActivity.this, "done", Toast.LENGTH_SHORT).show();
 
@@ -315,17 +304,17 @@ public class DetailsActivity extends Activity {
             Geocoder geocoder = new Geocoder(context, Locale.getDefault());
             List<Address> geoResults = geocoder.getFromLocationName(adress, 1);
 
-            while (geoResults.size()==0) {
-                System.out.println(adress +"failed");
-                Toast.makeText(DetailsActivity.this, "Adress "+ adress + " could not be found", Toast.LENGTH_LONG).show();
+            while (geoResults.size() == 0) {
+                System.out.println(adress + "failed");
+                Toast.makeText(DetailsActivity.this, "Adress " + adress + " could not be found", Toast.LENGTH_LONG).show();
                 adress = "München"; //München ist default falls eigegebene Adresse unlesbar ist
                 geoResults = geocoder.getFromLocationName(adress, 1);
 
             }
 
-            if (geoResults.size()>0) {
+            if (geoResults.size() > 0) {
                 Address addr = geoResults.get(0);
-                test = new LatLng (addr.getLatitude(),addr.getLongitude());
+                test = new LatLng(addr.getLatitude(), addr.getLongitude());
             }
         } catch (Exception e) {
             System.out.print(e.getMessage());
@@ -340,24 +329,21 @@ public class DetailsActivity extends Activity {
             ft.commit();
 
             //Close Button in front of map
-
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT);
             params.weight = 1.0f;
-            params.gravity= Gravity.RIGHT;
+            params.gravity = Gravity.RIGHT;
 
             params.setMargins(10, 20, 30, 40);
 
             //close.setLayoutParams(params);
-
             final Button close = new Button(this);
             //close.setText("Close");
-            Drawable d= getResources().getDrawable(R.drawable.deletenew2);
+            Drawable d = getResources().getDrawable(R.drawable.deletenew2);
             close.setBackground(d);
             close.setGravity(Gravity.RIGHT);
             close.setLayoutParams(params);
             addContentView(close, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
 
             close.setOnClickListener(new View.OnClickListener() {
 
@@ -371,12 +357,12 @@ public class DetailsActivity extends Activity {
                 }
             });
 
-            if(mMap==null){
+            if (mMap == null) {
 
                 mMap = ((MapFragment) getFragmentManager().
                         findFragmentById(R.id.map)).getMap();
 
-                if(mMap!=null){
+                if (mMap != null) {
 
                     mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                     Marker marker = mMap.addMarker(new MarkerOptions().

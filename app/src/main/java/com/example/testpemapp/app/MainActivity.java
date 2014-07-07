@@ -54,48 +54,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//sdlhfljar
-//        // fuer lokalen speicher
-//        Parse.enableLocalDatastore(this.getApplicationContext());
-//
-//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-//        PushService.setDefaultPushCallback(this, MainActivity.class);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         connection = new ParseConnection();
 
         lv = (ListView) findViewById(R.id.listView);
         createNavDrawer();
 
-//        // beim allerersten Start soll die login activity angezeigt werden, nach der registrierung nicht mehr
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//        System.out.println("parse user: " + ParseUser.getCurrentUser());
-//        if (currentUser != null) {
-//            // do stuff with the user
-//            Toast.makeText(MainActivity.this, "user!=null", Toast.LENGTH_SHORT).show();
-//
-//
-//            // NavDrawer:
-//
-//            // createNavDrawer();
-//
-//
         loadEntrys();
-//
-//
-//        } else {
-//            // show the signup or login screen
-//
-//            Intent intent = new Intent();
-//            intent.setClassName(getPackageName(), getPackageName() + ".SignUpActivity");
-//            //intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-//            startActivity(intent);
-//            Toast.makeText(MainActivity.this, "LOGIN ANGEZEIGT", Toast.LENGTH_SHORT).show();
-//
-//            //TODO nach dem registrieren -> leere Main mit nachricht freunde hinzufügen..
-//
-//        }
-
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,15 +72,6 @@ public class MainActivity extends Activity {
                 intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
                 intent.putExtra("objectIdTest", entrys[arg2].getId());
                 startActivity(intent);
-
-                //public void onListItemClick(ListView l, View v, int position, long id) {
-                //showDetails(position)
-                //void showDetails(int index) {
-//                Intent intent = new Intent();
-//                intent.setClass(getActivity(), DetailsActivity.class);
-//                intent.putExtra("index", index);
-//                intent.putExtra("input", adapter.getItem(index).toGanzString());
-//                startActivity(intent);
 
             }
         });
@@ -149,7 +105,7 @@ public class MainActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.menu_add:
-                // Red item was selected
+
                 Intent intent = new Intent();
 
                 intent.setClassName(getPackageName(), getPackageName() + ".NewEntryActivity");
@@ -160,18 +116,13 @@ public class MainActivity extends Activity {
                 intent.putExtra("mine", false);
 
                 startActivity(intent);
-                //    Toast.makeText(MainActivity.this, "new clicked", Toast.LENGTH_SHORT).show();
-                //System.out.println("test");
+
                 return true;
 
             case R.id.menu_load:
 
                 loadEntrys();
-                //   Toast.makeText(MainActivity.this, "load", Toast.LENGTH_SHORT).show();
 
-            case R.id.action_settings:
-                // settings item was selected
-                //    Toast.makeText(MainActivity.this, "settings clicked", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -204,16 +155,7 @@ public class MainActivity extends Activity {
     }
 
 
-//    protected void onResume(){
-//        loadEntrys();
-//
-//    }
-
-
-    // TODO fehler raus: wenn keine freunde werden eigene einträge auch nicht angezeigt bzw wenn man was löscht zeigt es die teils trotzdem noch an
     private void loadEntrys() {
-
-        //connection.getAllEntrys();
 
         // 1. get all friends:
         ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Friendship");
@@ -223,49 +165,28 @@ public class MainActivity extends Activity {
         innerQuery.findInBackground(new FindCallback<ParseObject>() {
 
             public void done(List<ParseObject> friendlist, ParseException e) {
-                // comments now contains the comments for posts with images.
+                if (e == null) {
 
-                if (e == null ) {
-
-                    //TODO statt array arraylist verwenden (wie bei FriendActivity auch)
                     ParseUser[] names = new ParseUser[friendlist.size() + 1];
                     names[0] = ParseUser.getCurrentUser();
 
-                    // test mit arraylist
-                    //ArrayList<ParseUser> friendnames = new ArrayList<ParseUser>();
-                    //friendnames.add(ParseUser.getCurrentUser());
 
                     if (friendlist.size() > 0) {
 
 
                         for (int i = 0; i < friendlist.size(); i++) {
                             names[i + 1] = (ParseUser) friendlist.get(i).get("toUser");
-                            //test mit arraylist
-                            //friendnames.add((ParseUser) friendlist.get(i).get("toUser"));
-
-                            System.out.println("friendsID: " + names[i]);
 
                             ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
                             queryl.include("user");
                             queryl.orderByDescending("createdAt");
                             queryl.whereContainedIn("user", Arrays.asList(names));
 
-                            //test mit arrayList
-                            //queryl.whereContainedIn("user", friendnames);
-
                             queryl.findInBackground(new FindCallback<ParseObject>() {
                                 public void done(List<ParseObject> scoreList, ParseException e) {
-                                    // comments now contains the comments for posts with images.
 
                                     if (e == null) {
                                         if (scoreList.size() > 0) {
-//                                        Log.d("score", "Retrieved " + commentList.size() + "entrys");
-//
-//                                        for (int i = 0; i < commentList.size(); i++) {
-//                                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
-//
-//                                            System.out.println("title: " + commentList.get(i).getString("title"));
-//                                        }
 
                                             Log.d("score", "Retrieved " + scoreList.size() + " scores");
                                             //size = scoreList.size()-1;
@@ -277,7 +198,6 @@ public class MainActivity extends Activity {
                                                 // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
 
                                                 ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
-
 
                                                 picFile.getDataInBackground(new GetDataCallback() {
                                                     public void done(byte[] data,
@@ -329,201 +249,88 @@ public class MainActivity extends Activity {
                             });
 
                         }
-                    }
-                    else{
-                        System.out.println("test wenn keine freunde mehr dann soll des aufgerufen werden: ");
+                    } else {
+
+                        ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
+                        queryl.include("user");
+                        queryl.orderByDescending("createdAt");
+                        queryl.whereEqualTo("user", names[0]);
+
+                        queryl.findInBackground(new FindCallback<ParseObject>() {
+                            public void done(List<ParseObject> scoreList, ParseException e) {
+
+                                if (e == null) {
+                                    if (scoreList.size() > 0) {
+
+                                        Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                                        //size = scoreList.size()-1;
+                                        entrys = new Entry[scoreList.size()];
+                                        titleArray = new String[scoreList.size()];
+                                        Log.d("entry array size: ", "size of entry array:" + entrys.length);
+                                        Entry entry;
+                                        for (int i = 0; i < scoreList.size(); i++) {
+                                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+
+                                            ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
 
 
+                                            picFile.getDataInBackground(new GetDataCallback() {
+                                                public void done(byte[] data,
+                                                                 ParseException e) {
+                                                    if (e == null) {
+                                                        pic = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-                        //for (int i = 0; i < friendlist.size(); i++) {
-                          //  names[i + 1] = (ParseUser) friendlist.get(i).get("toUser");
-                            //test mit arraylist
-                            //friendnames.add((ParseUser) friendlist.get(i).get("toUser"));
-
-                            //System.out.println("friendsID: " + names[i]);
-
-                            ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
-                            queryl.include("user");
-                            queryl.orderByDescending("createdAt");
-                            queryl.whereEqualTo("user", names[0]);
-
-                            //test mit arrayList
-                            //queryl.whereContainedIn("user", friendnames);
-
-                            queryl.findInBackground(new FindCallback<ParseObject>() {
-                                public void done(List<ParseObject> scoreList, ParseException e) {
-                                    // comments now contains the comments for posts with images.
-
-                                    if (e == null) {
-                                        if (scoreList.size() > 0) {
-//                                        Log.d("score", "Retrieved " + commentList.size() + "entrys");
-//
-//                                        for (int i = 0; i < commentList.size(); i++) {
-//                                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
-//
-//                                            System.out.println("title: " + commentList.get(i).getString("title"));
-//                                        }
-
-                                            Log.d("score", "Retrieved " + scoreList.size() + " scores");
-                                            //size = scoreList.size()-1;
-                                            entrys = new Entry[scoreList.size()];
-                                            titleArray = new String[scoreList.size()];
-                                            Log.d("entry array size: ", "size of entry array:" + entrys.length);
-                                            Entry entry;
-                                            for (int i = 0; i < scoreList.size(); i++) {
-                                                // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
-
-                                                ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
-
-
-                                                picFile.getDataInBackground(new GetDataCallback() {
-                                                    public void done(byte[] data,
-                                                                     ParseException e) {
-                                                        if (e == null) {
-                                                            pic = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                                                        } else {
-                                                            Log.d("test",
-                                                                    "There was a problem downloading the data.");
-                                                        }
+                                                    } else {
+                                                        Log.d("test",
+                                                                "There was a problem downloading the data.");
                                                     }
-                                                });
-
-
-                                                try {
-                                                    entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
-
-                                                    Log.d("entry", entry.toString());
-                                                    titleArray[i] = scoreList.get(i).getString("title");
-                                                    entrys[i] = entry;
-                                                } catch (ParseException e1) {
-                                                    e1.printStackTrace();
                                                 }
-                                            }
-
-                                            ArrayList a = new ArrayList<String>(titleArray.length);
-                                            for (String s : titleArray) {
-                                                a.add(s);
-                                            }
-                                            ArrayList b = new ArrayList<Entry>(entrys.length);
-                                            for (Entry s : entrys) {
-                                                b.add(s);
-                                            }
-                                            MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
-                                            lv.setAdapter(adapter);
-                                            //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+                                            });
 
 
-                                        } else {
-                                            Log.d("fehler in query not parse 2", "afafleere Liste d.h. keine einträge von freunden/sich selbst");
+                                            try {
+                                                entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
+
+                                                Log.d("entry", entry.toString());
+                                                titleArray[i] = scoreList.get(i).getString("title");
+                                                entrys[i] = entry;
+                                            } catch (ParseException e1) {
+                                                e1.printStackTrace();
+                                            }
                                         }
+
+                                        ArrayList a = new ArrayList<String>(titleArray.length);
+                                        for (String s : titleArray) {
+                                            a.add(s);
+                                        }
+                                        ArrayList b = new ArrayList<Entry>(entrys.length);
+                                        for (Entry s : entrys) {
+                                            b.add(s);
+                                        }
+                                        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
+                                        lv.setAdapter(adapter);
+                                        //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+
+
                                     } else {
-                                        Log.d("fehler 2", "hat nicht geklappt afs");
-                                        //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
-
+                                        Log.d("fehler in query not parse 2", "afafleere Liste d.h. keine einträge von freunden/sich selbst");
                                     }
-                                }
-                            });
+                                } else {
+                                    Log.d("fehler 2", "hat nicht geklappt afs");
+                                    //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
 
-                      //  }
+                                }
+                            }
+                        });
+
 
                     }
                 }
 
 
-
             }
         });
 
-//        //   innerQuery.whereExists("image");
-//        ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
-//        queryl.whereMatchesQuery("user", innerQuery);
-//
-//        //String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
-//        //queryl.whereContainedIn("playerName", Arrays.asList(names));
-//
-//        queryl.findInBackground(new FindCallback<ParseObject>() {
-//            public void done(List<ParseObject> commentList, ParseException e) {
-//                // comments now contains the comments for posts with images.
-//
-//                if (e == null) {
-//                    if (commentList.size() > 0) {
-//                        Log.d("score", "Retrieved " + commentList.size() + "entrys");
-//
-//                        for (int i = 0; i < commentList.size(); i++) {
-//                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
-//
-//                            System.out.println("title: " + commentList.get(i).getString("title"));
-//                        }
-//                    } else {
-//                        Log.d("fehler in query not parse", "hat wieder nicht geklappt :(");
-//                    }
-//                } else {
-//                    Log.d("fehler", "hat nicht geklappt");
-//
-//                }
-//            }
-//        });
-
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Entry");
-//        query.include("user");
-//        query.orderByDescending("createdAt");
-//// TODO: letzen 10 anzeigen:
-////        query.setLimit(10);
-//        query.findInBackground(new FindCallback<ParseObject>() {
-//            public void done(List<ParseObject> scoreList, ParseException e) {
-//                if (e == null && scoreList.size() > 0) {
-//                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
-//                    //size = scoreList.size()-1;
-//                    entrys = new Entry[scoreList.size()];
-//                    titleArray = new String[scoreList.size()];
-//                    Log.d("entry array size: ", "size of entry array:" + entrys.length);
-//                    Entry entry;
-//                    for (int i = 0; i < scoreList.size(); i++) {
-//                        // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
-//
-//                        ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
-//
-//
-//                        picFile.getDataInBackground(new GetDataCallback() {
-//                            public void done(byte[] data,
-//                                             ParseException e) {
-//                                if (e == null) {
-//                                    pic = BitmapFactory.decodeByteArray(data, 0, data.length);
-//
-//                                } else {
-//                                    Log.d("test",
-//                                            "There was a problem downloading the data.");
-//                                }
-//                            }
-//                        });
-//
-//
-//                        try {
-//                            entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
-//
-//                            Log.d("entry", entry.toString());
-//                            titleArray[i] = scoreList.get(i).getString("title");
-//                            entrys[i] = entry;
-//                        } catch (ParseException e1) {
-//                            e1.printStackTrace();
-//                        }
-//                    }
-//
-//                    MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), titleArray, entrys);
-//                    lv.setAdapter(adapter);
-//                    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//                    Log.d("score", "Error: " + e.getMessage());
-//                    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                Log.d("allentrys: ", "Entry array dass an main geschickt werden soll: " + entrys);
-//
-//
-//            }
-//        });
     }
 
 
@@ -532,11 +339,9 @@ public class MainActivity extends Activity {
         // get list items from strings.xml
         drawerListViewItems = getResources().getStringArray(R.array.items);
 
-
-
         //drawer list icons
         //drawerIcons = new int[] {R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_discard, R.drawable.ic_action_settings};
-        drawerIcons = new int[]{R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group, R.drawable.ic_action_settings};
+        drawerIcons = new int[]{R.drawable.ic_action_view_as_list, R.drawable.ic_action_person, R.drawable.ic_action_group};
 
         // get ListView defined in activity_main.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
@@ -629,9 +434,10 @@ public class MainActivity extends Activity {
                 intent.putExtra("index", "testtesttest");
                 startActivity(intent);
                 drawerLayout.closeDrawer(drawerListView);
-            } else if (position == 3) {
-                // Aktion
             }
+//            else if (position == 3) {
+//                // Aktion
+//            }
             //else if (position == 4) {
             // Aktion
             //}

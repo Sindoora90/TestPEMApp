@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,12 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// es sollen alle freunde angezeigt werden in einer einfachen liste
-
 public class FriendActivity extends Activity {
 
-    Person person;
-    Person[] persons;
 
     private ListView lv;
     ArrayAdapter adapter;
@@ -42,10 +36,6 @@ public class FriendActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
-//
-//        Parse.initialize(this, "MHHSAa8eQ6gpV4GnGO8TJBVjQ7f4bN8EuqKego9l", "DUhSOqqpyz677Zaz1TuA0jthlRINYTN9u4LYxQdL");
-//        PushService.setDefaultPushCallback(this, MainActivity.class);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         email = (EditText) findViewById(R.id.editText);
         search = (ImageButton) findViewById(R.id.imageButton);
@@ -53,7 +43,7 @@ public class FriendActivity extends Activity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              sendFriendReq();
+                sendFriendReq();
 
             }
         });
@@ -63,31 +53,12 @@ public class FriendActivity extends Activity {
 
         createFriendListView();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//                Intent intent = new Intent();
-//                intent.setClassName(getPackageName(), getPackageName()+".DetailsActivity");
-//                intent.putExtra("index", arg2);
-//                //gibt title mit
-//                intent.putExtra("selected", lv.getAdapter().getItem(arg2).toString());
-//                intent.putExtra("objectIdTest", entrys[arg2].getId());
-//                startActivity(intent);
-
-            //    Toast.makeText(FriendActivity.this, "clicccckkkkkk", Toast.LENGTH_SHORT).show();
-
-
-                //public void onListItemClick(ListView l, View v, int position, long id) {
-                //showDetails(position)
-                //void showDetails(int index) {
-//                Intent intent = new Intent();
-//                intent.setClass(getActivity(), DetailsActivity.class);
-//                intent.putExtra("index", index);
-//                intent.putExtra("input", adapter.getItem(index).toGanzString());
-//                startActivity(intent);
-
-            }
-        });
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//                Toast.makeText(FriendActivity.this, "clicccckkkkkk", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         ParseQuery<ParseUser> query2 = ParseUser.getQuery();
         query2.findInBackground(new FindCallback<ParseUser>() {
@@ -99,12 +70,11 @@ public class FriendActivity extends Activity {
                 }
             }
         });
-       // Import_contacts_from_address_book();
+        // Import_contacts_from_address_book();
     }
 
     private void createFriendListView() {
 
-        // set up the query on the Follow table
         final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friendship");
         query2.include("user");
         query2.whereEqualTo("fromUser", ParseUser.getCurrentUser());
@@ -116,7 +86,6 @@ public class FriendActivity extends Activity {
 
                         ArrayList friendList = new ArrayList<String>();
 
-                        // TODO hier gibts noch no data for this key exception
                         for (int i = 0; i < followList.size(); i++) {
                             try {
                                 friendList.add(((ParseUser) followList.get(i).get("toUser")).fetchIfNeeded().getUsername());
@@ -127,14 +96,10 @@ public class FriendActivity extends Activity {
                                 System.out.println("miauuuuu");
                             }
 
-                            //   System.out.println("friendlist eintrag: " + ((ParseUser) followList.get(i).get("toUser")).getUsername());
                         }
                         adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, friendList);
                         lv.setAdapter(adapter);
 
-                        // Create a ListView-specific touch listener. ListViews are given special treatment because
-                        // by default they handle touches for their list items... i.e. they're in charge of drawing
-                        // the pressed state (the list selector), handling list item clicks, etc.
                         SwipeDismissListViewTouchListener touchListener =
                                 new SwipeDismissListViewTouchListener(
                                         lv,
@@ -148,28 +113,26 @@ public class FriendActivity extends Activity {
                                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                                 for (int position : reverseSortedPositions) {
 
-                                                    // TODO: aus parse löschen:
 
-                                                    ParseQuery<ParseObject> query23 = ParseQuery.getQuery("Friendship");
-                                                    query23.whereEqualTo("toUser", ParseUser.getCurrentUser());
-                                                    System.out.println(followList.get(position).get("toUser"));
-                                                    query23.whereEqualTo("fromUser", (ParseUser) followList.get(position).get("toUser"));
-                                                    query23.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                        @Override
-                                                        public void done(ParseObject parseObject, ParseException e) {
-                                                            if (e != null && parseObject != null) {
-                                                                //parseObject.deleteInBackground();
-                                                                System.out.println("object gefunden: " + parseObject.getString("fromUser"));
-                                                                System.out.println("freund wurde gelsöcht");
-                                                            } else {
-                                                                System.out.println("hat nich geklappt mit freund lsöchen");
-                                                            }
-                                                        }
-                                                    });
+//                                                    ParseQuery<ParseObject> query23 = ParseQuery.getQuery("Friendship");
+//                                                    query23.whereEqualTo("toUser", ParseUser.getCurrentUser());
+//                                                    System.out.println(followList.get(position).get("toUser"));
+//                                                    query23.whereEqualTo("fromUser", (ParseUser) followList.get(position).get("toUser"));
+//                                                    query23.getFirstInBackground(new GetCallback<ParseObject>() {
+//                                                        @Override
+//                                                        public void done(ParseObject parseObject, ParseException e) {
+//                                                            if (e != null && parseObject != null) {
+//                                                                //parseObject.deleteInBackground();
+//                                                                System.out.println("object gefunden: " + parseObject.getString("fromUser"));
+//                                                                System.out.println("freund wurde gelsöcht");
+//                                                            } else {
+//                                                                System.out.println("hat nich geklappt mit freund lsöchen");
+//                                                            }
+//                                                        }
+//                                                    });
 
 
                                                     followList.get(position).deleteInBackground();
-                                                    // es wird nur freundschaft von mir zu ihr gelöscht...
 
                                                     adapter.remove(adapter.getItem(position));
                                                 }
@@ -179,50 +142,14 @@ public class FriendActivity extends Activity {
                                         }
                                 );
                         lv.setOnTouchListener(touchListener);
-                        // Setting this scroll listener is required to ensure that during ListView scrolling,
-                        // we don't look for swipes.
+
                         lv.setOnScrollListener(touchListener.makeScrollListener());
 
-//                    // Set up normal ViewGroup example
-//                    final ViewGroup dismissableContainer = (ViewGroup) findViewById(R.id.dismissable_container);
-//                    for (int i = 0; i < items.length; i++) {
-//                        final Button dismissableButton = new Button(this);
-//                        dismissableButton.setLayoutParams(new ViewGroup.LayoutParams(
-//                                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                        dismissableButton.setText("Button " + (i + 1));
-//                        dismissableButton.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Toast.makeText(MyEntrys.this,
-//                                        "Clicked " + ((Button) view).getText(),
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                        // Create a generic swipe-to-dismiss touch listener.
-//                        dismissableButton.setOnTouchListener(new SwipeDismissTouchListener(
-//                                dismissableButton,
-//                                null,
-//                                new SwipeDismissTouchListener.DismissCallbacks() {
-//                                    @Override
-//                                    public boolean canDismiss(Object token) {
-//                                        return true;
-//                                    }
-//
-//                                    @Override
-//                                    public void onDismiss(View view, Object token) {
-//                                        dismissableContainer.removeView(dismissableButton);
-//                                    }
-//                                }));
-//                        dismissableContainer.addView(dismissableButton);
-//                    }
-
-
-               //         Toast.makeText(FriendActivity.this, "adapter erzeugt", Toast.LENGTH_SHORT).show();
                     } else {
-                //        Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
+                        //        Toast.makeText(FriendActivity.this, "freundeliste leer", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                //    Toast.makeText(FriendActivity.this, "kein internet", Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(FriendActivity.this, "kein internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -239,42 +166,39 @@ public class FriendActivity extends Activity {
             query.whereEqualTo("email", emailAdresse);
             query.findInBackground(new FindCallback<ParseUser>() {
                 public void done(List<ParseUser> objects, ParseException e) {
-                    if (e == null && objects.size()>0) {
+                    if (e == null && objects.size() > 0) {
                         System.out.println("currentuser : " + ParseUser.getCurrentUser().getUsername());
                         System.out.println("received user: " + objects.get(0).getUsername());
                         // The query was successful. -> freund hinzufügen..
                         //     Toast.makeText(FriendActivity.this, "found user :))", Toast.LENGTH_SHORT).show();
-                        if (!objects.get(0).getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+                        if (!objects.get(0).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                             ParseObject follow = new ParseObject("Friendship");
-                        follow.put("fromUser", ParseUser.getCurrentUser());
-                        follow.put("toUser", objects.get(0));
-                        //follow.put("date", Date());
-                        //follow.saveInBackground();
-                        follow.saveInBackground(new SaveCallback() {
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    // myObjectSavedSuccessfully();
-                                    createFriendListView();
-                                } else {
-                                    // myObjectSaveDidNotSucceed();
-                                    System.out.println("es wurde nicht gespeichert");
+                            follow.put("fromUser", ParseUser.getCurrentUser());
+                            follow.put("toUser", objects.get(0));
+                            //follow.put("date", Date());
+                            //follow.saveInBackground();
+                            follow.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        // myObjectSavedSuccessfully();
+                                        createFriendListView();
+                                    } else {
+                                        // myObjectSaveDidNotSucceed();
+                                        System.out.println("freund wurde nicht gespeichert");
+                                    }
                                 }
-                            }
-                        });
+                            });
 
 
-                        ParseObject followed = new ParseObject("Friendship");
-                        followed.put("fromUser", objects.get(0));
-                        followed.put("toUser", ParseUser.getCurrentUser());
-                        //follow.put("date", Date());
-                        followed.saveInBackground();
+                            ParseObject followed = new ParseObject("Friendship");
+                            followed.put("fromUser", objects.get(0));
+                            followed.put("toUser", ParseUser.getCurrentUser());
+                            //follow.put("date", Date());
+                            followed.saveInBackground();
 
-                        //TODO: PushNotification an den Freund
-
-                        Toast.makeText(FriendActivity.this, "you and " + emailAdresse + " are now friends", Toast.LENGTH_SHORT).show();
-                    }
-                        else{
-                            Toast.makeText(FriendActivity.this, "Du kannst dich nicht mir dir selbst befreunden",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FriendActivity.this, "Du und " + emailAdresse + " sind jetzt Freunde!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(FriendActivity.this, "Du kannst dich nicht mir dir selbst befreunden", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         // Something went wrong.
@@ -284,10 +208,8 @@ public class FriendActivity extends Activity {
                 }
             });
 
-         //   Toast.makeText(FriendActivity.this, "ok clicked, email: " + emailAdresse, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(FriendActivity.this, "Bitte Email Adresse eingeben", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -313,14 +235,18 @@ public class FriendActivity extends Activity {
     }
 
 
-    // es müssen alle contacts hochgeladen werden als tabelle: name + telefonnummer
-    // dann müssen die beiden tabellen verglichenc werden also contacts und user
+
+
+
+
+    // für das automatische hinzufügen der freunde:
+    // es müssten alle contacts hochgeladen werden als tabelle: name + telefonnummer
+    // dann müssen die beiden tabellen verglichen werden also contacts und user
     // dann müssen contact + userID zurückgegeben werden...
 
-    // nur zum testen, muss nachher wieder raus weils in login kommt damit es nur einmal passiert!!!
-   // int countContact;
+    // int countContact;
     //TextView t1;
-   // TextView t2;
+    // TextView t2;
 //
 //    private void Import_contacts_from_address_book() {
 //
@@ -330,7 +256,7 @@ public class FriendActivity extends Activity {
 //
 //
 //
-//        // TODO Auto-generated method stub
+//
 //        String phoneNumber = null;
 //        String email = null;
 //        Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;

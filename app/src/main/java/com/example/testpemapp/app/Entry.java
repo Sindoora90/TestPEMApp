@@ -4,9 +4,7 @@ import android.graphics.Bitmap;
 
 import com.parse.ParseUser;
 
-/**
- * Created by Sindoora on 22.05.14.
- */
+
 public class Entry {
 
     public String id;
@@ -19,14 +17,13 @@ public class Entry {
 
 
     //zum testen:
+//
+//    public Entry(String title){
+//        this.title = title;
+//    }
 
-    public Entry(String title){
-        this.title = title;
-    }
 
-
-
-    public Entry(String id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+    public Entry(String id, String title, boolean geschenk, Bitmap picture, double price, String description, ParseUser name) {
         this.id = id;
         this.title = title;
         this.geschenk = geschenk;
@@ -54,34 +51,8 @@ public class Entry {
     }
 
     String nameString = "";
+
     public ParseUser getName() {
-
-//
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-//        // später wenns richtig geht muss hier der index iwie mitgeschickt werden oder so bzw die id über des intent hier ankommen..
-//        query.whereEqualTo("objectID", name);
-//        query.getFirstInBackground(new GetCallback<ParseObject>() {
-//            @Override
-//            public void done(ParseObject parseObject, ParseException e) {
-//                nameString = parseObject.getString("username");
-//                //ParseUser p = parseObject.get("user");
-//            }
-//        });
-//
-//        ParseQuery<ParseUser> query = ParseUser.getQuery();
-//        query.whereEqualTo("gender", "female");
-//        query.findInBackground(new FindCallback<ParseUser>() {
-//            public void done(List<ParseUser> objects, ParseException e) {
-//                if (e == null) {
-//                    // The query was successful.
-//                } else {
-//                    // Something went wrong.
-//                }
-//            }
-//        });
-
-
-
         return name;
     }
 
