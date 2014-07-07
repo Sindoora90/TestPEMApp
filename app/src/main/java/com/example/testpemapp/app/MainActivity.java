@@ -330,6 +330,104 @@ public class MainActivity extends Activity {
 
                         }
                     }
+                    else{
+                        System.out.println("test wenn keine freunde mehr dann soll des aufgerufen werden: ");
+
+
+
+                        //for (int i = 0; i < friendlist.size(); i++) {
+                          //  names[i + 1] = (ParseUser) friendlist.get(i).get("toUser");
+                            //test mit arraylist
+                            //friendnames.add((ParseUser) friendlist.get(i).get("toUser"));
+
+                            //System.out.println("friendsID: " + names[i]);
+
+                            ParseQuery<ParseObject> queryl = ParseQuery.getQuery("Entry");
+                            queryl.include("user");
+                            queryl.orderByDescending("createdAt");
+                            queryl.whereEqualTo("user", names[0]);
+
+                            //test mit arrayList
+                            //queryl.whereContainedIn("user", friendnames);
+
+                            queryl.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> scoreList, ParseException e) {
+                                    // comments now contains the comments for posts with images.
+
+                                    if (e == null) {
+                                        if (scoreList.size() > 0) {
+//                                        Log.d("score", "Retrieved " + commentList.size() + "entrys");
+//
+//                                        for (int i = 0; i < commentList.size(); i++) {
+//                                            // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+//
+//                                            System.out.println("title: " + commentList.get(i).getString("title"));
+//                                        }
+
+                                            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                                            //size = scoreList.size()-1;
+                                            entrys = new Entry[scoreList.size()];
+                                            titleArray = new String[scoreList.size()];
+                                            Log.d("entry array size: ", "size of entry array:" + entrys.length);
+                                            Entry entry;
+                                            for (int i = 0; i < scoreList.size(); i++) {
+                                                // Entry(int id, String title, boolean geschenk,Bitmap picture, double price, String description, ParseUser name){
+
+                                                ParseFile picFile = (ParseFile) scoreList.get(i).getParseFile("picFile");
+
+
+                                                picFile.getDataInBackground(new GetDataCallback() {
+                                                    public void done(byte[] data,
+                                                                     ParseException e) {
+                                                        if (e == null) {
+                                                            pic = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                                                        } else {
+                                                            Log.d("test",
+                                                                    "There was a problem downloading the data.");
+                                                        }
+                                                    }
+                                                });
+
+
+                                                try {
+                                                    entry = new Entry(scoreList.get(i).getObjectId(), scoreList.get(i).getString("title"), scoreList.get(i).getBoolean("geschenk"), BitmapFactory.decodeByteArray(scoreList.get(i).getParseFile("picFile").getData(), 0, scoreList.get(i).getParseFile("picFile").getData().length), scoreList.get(i).getDouble("price"), scoreList.get(i).getString("description"), (ParseUser) scoreList.get(i).get("user"));
+
+                                                    Log.d("entry", entry.toString());
+                                                    titleArray[i] = scoreList.get(i).getString("title");
+                                                    entrys[i] = entry;
+                                                } catch (ParseException e1) {
+                                                    e1.printStackTrace();
+                                                }
+                                            }
+
+                                            ArrayList a = new ArrayList<String>(titleArray.length);
+                                            for (String s : titleArray) {
+                                                a.add(s);
+                                            }
+                                            ArrayList b = new ArrayList<Entry>(entrys.length);
+                                            for (Entry s : entrys) {
+                                                b.add(s);
+                                            }
+                                            MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
+                                            lv.setAdapter(adapter);
+                                            //    Toast.makeText(MainActivity.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
+
+
+                                        } else {
+                                            Log.d("fehler in query not parse 2", "afafleere Liste d.h. keine einträge von freunden/sich selbst");
+                                        }
+                                    } else {
+                                        Log.d("fehler 2", "hat nicht geklappt afs");
+                                        //    Toast.makeText(MainActivity.this, "kein internet... ", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
+
+                      //  }
+
+                    }
                 }
 
 

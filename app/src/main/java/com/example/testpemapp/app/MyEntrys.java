@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -36,7 +35,8 @@ public class MyEntrys extends Activity {
 //    ListAdapter adapter;
     MySimpleArrayAdapter adapter;
 
-    Entry[] entrys;
+  //  Entry[] entrys;
+    ArrayList<Entry> entryslist;
     String[] titleArray;
 
     @Override
@@ -70,7 +70,8 @@ public class MyEntrys extends Activity {
             public void done(final List<ParseObject> scoreList, ParseException e) {
                 if (e == null && scoreList.size()>0) {
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
-                    entrys = new Entry[scoreList.size()];
+                    //entrys = new Entry[scoreList.size()];
+                    entryslist = new ArrayList<Entry>();
                     titleArray = new String[scoreList.size()];
                     Entry entry;
 
@@ -103,7 +104,8 @@ public class MyEntrys extends Activity {
                             Log.d("entry", entry.toString());
                           //  Toast.makeText(MyEntrys.this, "current parseuser: " + ParseUser.getCurrentUser(), Toast.LENGTH_SHORT).show();
                             titleArray[i] = scoreList.get(i).getString("title");
-                            entrys[i] = entry;
+                            //entrys[i] = entry;
+                            entryslist.add(entry);
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
@@ -113,11 +115,11 @@ public class MyEntrys extends Activity {
                     for (String s : titleArray) {
                         a.add(s);
                     }
-                    ArrayList b = new ArrayList<Entry>(entrys.length);
-                    for (Entry s : entrys) {
-                        b.add(s);
-                    }
-                    adapter = new MySimpleArrayAdapter(getApplicationContext(), a, b);
+//                    ArrayList b = new ArrayList<Entry>(entrys.length);
+//                    for (Entry s : entrys) {
+//                        b.add(s);
+//                    }
+                    adapter = new MySimpleArrayAdapter(getApplicationContext(), a, entryslist);
                     lv.setAdapter(adapter);
                  //   Toast.makeText(MyEntrys.this, "liste erzeugt ", Toast.LENGTH_SHORT).show();
 
@@ -140,24 +142,26 @@ public class MyEntrys extends Activity {
                                                 // TODO: aus parse löschen:
 
                                                 scoreList.get(position).deleteInBackground();
-
-                                                scoreList.get(position).deleteInBackground(new DeleteCallback()
-                                                {
-                                                    public void done(ParseException e) {
-                                                        if (e == null) {
-                                                            // myObjectSavedSuccessfully();
-
-                                                        //  removed = true;
-                                                        } else {
-                                                            // myObjectSaveDidNotSucceed();
-                                                            System.out.println("es wurde nicht gelöscht");
-                                                        }
-                                                    }
-                                                });
+//
+//                                                scoreList.get(position).deleteInBackground(new DeleteCallback()
+//                                                {
+//                                                    public void done(ParseException e) {
+//                                                        if (e == null) {
+//                                                            // myObjectSavedSuccessfully();
+//
+//                                                        //  removed = true;
+//                                                        } else {
+//                                                            // myObjectSaveDidNotSucceed();
+//                                                            System.out.println("es wurde nicht gelöscht");
+//                                                        }
+//                                                    }
+//                                                });
 //
 //                                                while(!removed){
 //
 //                                                }
+                                                //System.out.println("adaptergetitem(position) " + adapter.getItem(position));
+                                                adapter.getEntrys().remove(position);
                                                 adapter.remove(adapter.getItem(position));
                                                 //removed = false;
 
@@ -239,7 +243,7 @@ public class MyEntrys extends Activity {
 
 
                 }
-                Log.d("allentrys: ", "Entry array dass an main geschickt werden soll: " + entrys);
+                Log.d("allentrys: ", "Entry array dass an main geschickt werden soll: " + entryslist);
 
 
             }

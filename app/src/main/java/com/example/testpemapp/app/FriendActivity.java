@@ -240,10 +240,12 @@ public class FriendActivity extends Activity {
             query.findInBackground(new FindCallback<ParseUser>() {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null && objects.size()>0) {
+                        System.out.println("currentuser : " + ParseUser.getCurrentUser().getUsername());
+                        System.out.println("received user: " + objects.get(0).getUsername());
                         // The query was successful. -> freund hinzufügen..
-                   //     Toast.makeText(FriendActivity.this, "found user :))", Toast.LENGTH_SHORT).show();
-
-                        ParseObject follow = new ParseObject("Friendship");
+                        //     Toast.makeText(FriendActivity.this, "found user :))", Toast.LENGTH_SHORT).show();
+                        if (!objects.get(0).getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+                            ParseObject follow = new ParseObject("Friendship");
                         follow.put("fromUser", ParseUser.getCurrentUser());
                         follow.put("toUser", objects.get(0));
                         //follow.put("date", Date());
@@ -251,15 +253,14 @@ public class FriendActivity extends Activity {
                         follow.saveInBackground(new SaveCallback() {
                             public void done(ParseException e) {
                                 if (e == null) {
-                                   // myObjectSavedSuccessfully();
+                                    // myObjectSavedSuccessfully();
                                     createFriendListView();
                                 } else {
-                                   // myObjectSaveDidNotSucceed();
+                                    // myObjectSaveDidNotSucceed();
                                     System.out.println("es wurde nicht gespeichert");
                                 }
                             }
                         });
-
 
 
                         ParseObject followed = new ParseObject("Friendship");
@@ -270,8 +271,11 @@ public class FriendActivity extends Activity {
 
                         //TODO: PushNotification an den Freund
 
-                        Toast.makeText(FriendActivity.this, "you and "+emailAdresse+" are now friends", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(FriendActivity.this, "you and " + emailAdresse + " are now friends", Toast.LENGTH_SHORT).show();
+                    }
+                        else{
+                            Toast.makeText(FriendActivity.this, "Du kannst dich nicht mir dir selbst befreunden",Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         // Something went wrong.
                         Toast.makeText(FriendActivity.this, "could not find user, email wrong?", Toast.LENGTH_SHORT).show();

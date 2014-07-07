@@ -47,7 +47,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
             geschenk.setVisibility(View.GONE);
             preis.setText(Double.toString(val.get(position).getPrice()) + " €");
         }
-        String s = values.get(position);
+        //String s = values.get(position);
         //if (s.startsWith("Windows7") || s.startsWith("iPhone")
           //      || s.startsWith("Solaris")) {
         Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(val.get(position).getPicture(), 250, 250);
@@ -58,5 +58,9 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         //}
 
         return rowView;
+    }
+
+    public ArrayList<Entry> getEntrys(){
+        return val;
     }
 }
