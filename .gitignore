@@ -10,3 +10,6 @@
 .idea\copyright\profiles_settings.xml
 /.idea
 \.idea
+.idea/libraries/support_v4_19_1_0.xml
+
+app/app.iml
